@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:,">
+        <title>Файл Config</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h1 {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+                margin-block-start: 0.0em;
+                margin-block-end: 0.2em;
+            }
+            th, td {
+                font-size: 16px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            .description {
+                font-size: 16px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            input[type="text"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                padding-bottom: 2px;
+                padding-left: 4px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="text"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="text"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            input[type="number"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                width: 150px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="number"]::-webkit-input-placeholder {
+                color: lightgray;   
+            }
+            input[type="number"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            .smallSelect {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                width: 150px;
+                font-size: 14px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            .smallSelect input::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            .smallSelect input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            select {
+                border-color: lightgray;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                display: inline-block;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                padding: 2px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            select::-webkit-input-placeholder {
+                color: #7F8C37;
+            }
+            select:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            .selectMain {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                display: inline-block;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                padding: 2px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            .selectMain::-webkit-input-placeholder {
+                color: #7F8C37;
+            }
+            .selectMain:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            .button {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                font-size: 18px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button:focus {
+                transition: 0.15s;
+                border-color: #7F8C37;
+                color: #7F8C37;
+            }
+            textarea {
+                font-size: 18px;
+            }
+            .disabled {
+                color:lightgrey;
+            }
+            .smallSelect {
+                width: 30px;
+            }
+            .invalid-input {
+                background-color: #FFAA00;
+            }
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+    <body style="padding: 0px 10px;">
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <h1>Содержимое файла Config.ini:</h1>
+                </td>
+                <td>
+                    <button class="button" id="Edit_Config_Direct" onclick="editConfigDirect()" style="display:none">Редактировать Config.ini напрямую</button>
+                    <input type="checkbox" id="ExpertModus_enabled" value="1" onclick = 'UpdateExpertModus()' unchecked><label for="ExpertModus_enabled" style="font-size: 18px"> Расширенные настройки</label> 
+                </td>
+            </tr>
+        </table>
+
+        <br>
+
+        <div id = "divall" style="display:none">
+
+        <table>
+            <tr>
+                <th width="20px"  style="text-align: left;">
+                    Включено
+                </th>
+                <th  width="200px"  style="text-align: left;">
+                    Название параметра
+                </th>
+                <th style="text-align: left;">
+                    Значение
+                </th>
+                <th style="text-align: left;">
+                    Описание
+                </th>
+            </tr>
+
+            <tr>
+                <td colspan="4" style="padding-left: 20px;"><h4>Создание изображения</h4></td>
+            </tr> 
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="MakeImage_LogImageLocation_enabled" value="1"  onclick = 'InvertEnableItem("MakeImage", "LogImageLocation")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="MakeImage_LogImageLocation_text">Путь к логу изображений (LogImageLocation)</class>
+                </td>
+                <td>
+                    <input type="text" name="name" id="MakeImage_LogImageLocation_value1">
+                </td>
+                <td class="description">
+                    Путь к папке на MicroSD карте для хранения необработанных изображений для логирования.
+                </td>
+            </tr>
+            <tr>
+                <td width="20px" style="padding-left: 40px;">
+                    <input type="checkbox" id="MakeImage_LogfileRetentionInDays_enabled" value="1"  onclick = 'InvertEnableItem("MakeImage", "LogfileRetentionInDays")' unchecked>
+                </td>
+                <td>
+                    <class id="MakeImage_LogfileRetentionInDays_text">Время хранения файла с логами</class>
+                </td>
+                <td>
+                    <input type="number" id="MakeImage_LogfileRetentionInDays_value1" size="13"  min="0" step="1">
+                </td>
+                <td class="description">
+                    Время хранения необработанных изображений в днях ("0" - хранить всегда).
+                </td>
+            </tr>
+            <tr class="expert" id="ex1">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="MakeImage_WaitBeforeTakingPicture_text">Задержка перед фотографированием</class>
+                </td>
+                <td>
+                    <input type="number" id="MakeImage_WaitBeforeTakingPicture_value1" size="13" min="0" step="any">
+                </td>
+                <td class="description">
+                    Задержка между включением вспышки и съёмкой фотографии (в миллисекундах).
+                </td>
+            </tr>
+            <tr class="expert" id="ex2">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="MakeImage_ImageQuality_text">Качество изображения</class>
+                </td>
+                <td>
+                    <input type="number" id="MakeImage_ImageQuality_value1" size="13"   min="0" max="63">
+                </td>
+                <td class="description">
+                    Индекс качества изображения (диапазон от 0 до 63, чем ниже значение, тем лучше качество). Примечание: значения меньше 12 могут привести к сбою в работе, так как фотография большего размера может не поместиться в оперативной памяти.
+                </td>
+            </tr>
+            <tr class="expert"  id="ex3">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="MakeImage_ImageSize_text">Разрешение изображения</class>
+                </td>
+                <td>
+                    <select id="MakeImage_ImageSize_value1">
+                        <option value="VGA" selected>VGA</option>
+                        <option value="QVGA" >QVGA</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Размер изображения (по умолчанию - VGA).
+                </td>
+            </tr>
+            <tr class="expert"  id="LEDIntensity_ex3">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="MakeImage_LEDIntensity_text">Яркость вспышки</class>
+                </td>
+                <td>
+                    <input type="number" id="MakeImage_LEDIntensity_value1" size="13" min="0" max="100">
+                </td>
+                <td>
+                    Яркость вспышки на плате ESP32-CAM (ШИМ от 0% до 100%). <br>
+                    Примечание: так как используются настройки автоподсветки камеры, этот параметр нужен скорее для экономии энергии, чем для уменьшения отражений.
+                </td>
+            </tr>
+            <tr class="expert"  id="Brightness_ex3">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="MakeImage_Brightness_text">Яркость</class>
+                </td>
+                <td>
+                    <input type="number" id="MakeImage_Brightness_value1" size="13"   min="-2" max="2">
+                </td>
+                <td>
+                    Яркость изображения (Диапазон от -2 до 2, по умолчанию - 0).
+                </td>
+            </tr>
+            <tr class="expert"  id="Contrast_ex3">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="MakeImage_Contrast_text">Контраст</class>
+                </td>
+                <td>
+                    <input type="number" id="MakeImage_Contrast_value1" size="13"   min="-2" max="2">
+                </td>
+                <td>
+                    Контраст изображения (Диапазон от -2 до 2, по умолчанию - 0) <br>
+                    Примечание: драйвер камеры еще не полностью поддерживает этот параметр (это не влияет на качество изображения).
+                </td>
+            </tr>
+            <tr class="expert"  id="Saturation_ex3">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="MakeImage_Saturation_text">Насыщение</class>
+                </td>
+                <td>
+                    <input type="number" id="MakeImage_Saturation_value1" size="13"   min="-2" max="2">
+                </td>
+                <td>
+                    Насыщение изображения (Диапазон от -2 до 2, по умолчанию - 0) <br>
+                    Примечание: драйвер камеры еще не полностью поддерживает этот параметр (это не влияет на качество изображения).
+                </td>
+            </tr>
+            <tr class="expert"  id="MakeImage_FixedExposure_ex10">
+                <td width="20px"  style="padding-left: 40px;">
+                </td>
+                <td  width="200px">
+                    <class id="MakeImage_FixedExposure_text">Фиксированная экспозиция</class>
+                </td>
+                <td>
+                    <select id="MakeImage_FixedExposure_value1">
+                        <option value="true" selected>true</option>
+                        <option value="false" >false</option>
+                    </select>
+                </td>
+                <td>
+                    При запуске фиксирует настройку освещения изображения и использует ее позже.
+                </td>
+            </tr>
+
+            
+            <tr class="expert"  id="ex4">
+                <td colspan="4" style="padding-left: 20px;"><h4>Выравнивание</h4></td>
+            </tr> 
+            <tr class="expert"  id="ex6">
+                <td  width="20px"  style="padding-left: 40px;">
+                </td>
+                <td width="200px">
+                    <class id="Alignment_SearchFieldX_text">Поле поиска по оси X (SearchFieldX)</class>
+                </td>
+                <td>
+                    <input type="number" name="name" id="Alignment_SearchFieldX_value1" size="13" min="1"  step="1">
+                </td>
+                <td>
+                    Размер диапазона на оси X, в котором ищется элемент выравнивания (по умолчанию - 20). 
+                </td>
+            </tr>
+            <tr class="expert"  id="ex8">
+                <td  width="20px"  style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="Alignment_SearchFieldY_text">Поле поиска по оси Y (SearchFieldY)</class>
+                </td>
+                <td>
+                    <input type="number" name="name" id="Alignment_SearchFieldY_value1" size="13" min="1">
+                </td>
+                <td>
+                    Размер диапазона на оси Y, в котором ищется элемент выравнивания (по умолчанию - 20). 
+                </td>
+            </tr>
+            <tr class="expert"  id="AlignmentAlgo_ex8">
+                <td  width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Alignment_AlignmentAlgo_enabled" value="1"  onclick = 'InvertEnableItem("Alignment", "AlignmentAlgo")' unchecked >
+                </td>
+                <td>
+                    <class id="Alignment_AlignmentAlgo_text">Алгоритм выравнивания</class>
+                </td>
+                <td>
+                    <select id="Alignment_AlignmentAlgo_value1">
+                        <option value="default" selected>По умолчанию</option>
+                        <option value="highAccurity">Высокая точность</option>
+                        <option value="fast">Быстро</option>
+                    </select>
+                    </td>
+                <td>
+                    "По умолчанию" - использовать только R-канал, "Высокая точность" - использовать все каналы RGB (этот вариант в 3 раза медленнее),
+                    "Быстро" - сначала используем каналы RGB, затем только проверяем не смещено ли изображение.
+                </td>
+            </tr>
+
+
+            <tr id="Category_Digits_ex4">
+                <td colspan="4" style="padding-left: 20px;">
+                    <h4><input type="checkbox" id="Category_Digits_enabled" value="1"  onclick = 'UpdateAfterCategoryCheck()' unchecked> Распознавание цифровых счётчиков</h4></td>
+            </tr> 
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                </td>
+                <td  width="200px">
+                    <class id="Digits_Model_text">Путь к модели нейросети</class>
+                </td>
+                <td>
+                    <select id="Digits_Model_value1">
+                    </select>
+                </td>
+                <td>
+                    Путь к файлу CNN модели на MicroSD карте для распознавания изображений.
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Digits_LogImageLocation_enabled" value="1"  onclick = 'InvertEnableItem("Digits", "LogImageLocation")' unchecked >
+                </td>
+                <td>
+                    <class id="Digits_LogImageLocation_text"> Путь к логу изображений (LogImageLocation)</class>
+                </td>
+                <td>
+                    <input type="text" name="name" id="Digits_LogImageLocation_value1">
+                </td>
+                <td>
+                    Путь к папке на MicroSD карте для хранения фотографий отдельных цифр счётчика для логирования.
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Digits_LogfileRetentionInDays_enabled" value="1"  onclick = 'InvertEnableItem("Digits", "LogfileRetentionInDays")' unchecked >
+                </td>
+                <td>
+                    <class id="Digits_LogfileRetentionInDays_text">Время хранения файла с логами</class>
+                </td>
+                <td>
+                    <input type="number" id="Digits_LogfileRetentionInDays_value1" min="0"  step="1">
+                </td>
+                <td>
+                    Время хранения фотографий отдельных цифр счётчика в днях ("0" - хранить всегда)
+                </td>
+            </tr>
+            <tr class="expert"  id="ex9">
+                <td width="20px"  style="padding-left: 40px;">
+                </td>
+                <td>
+                    <class id="Digits_ModelInputSize_text">Размер входного изображения</class>
+                </td>
+                <td>
+                    <input type="number" id="Digits_ModelInputSize_value1" class="smallSelect" min="1" step="1" placeholder="Ширина по X">
+                    <input type="number" id="Digits_ModelInputSize_value2" class="smallSelect" min="1" step="1" placeholder="Высота по Y">
+                </td>
+                <td>
+                    Разрешение входного изображения для CNN модели.
+                </td>
+            </tr>
+
+            <tr id="Category_Analog_ex4">
+                <td colspan="4" style="padding-left: 20px;">
+                    <h4><input type="checkbox" id="Category_Analog_enabled" value="1"  onclick = 'UpdateAfterCategoryCheck()' unchecked > Распознавание аналоговых счётчиков</h4></td>
+            </tr> 
+            <tr>
+                <td width="20px"  style="padding-left: 40px;"> </td>
+                <td width="200px"> <class id="Analog_Model_text"> Путь к модели нейросети</class> </td>
+                <td> 
+                    <select id="Analog_Model_value1">
+                    </select>
+                </td>
+                <td>Путь к файлу CNN модели на MicroSD карте для распознавания изображений.</td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Analog_LogImageLocation_enabled" value="1"  onclick = 'InvertEnableItem("Analog", "LogImageLocation")' unchecked >
+                </td>
+                <td> <class id="Analog_LogImageLocation_text">Путь к логу изображений (LogImageLocation)</class> </td>
+                <td> <input type="text" name="name" id="Analog_LogImageLocation_value1"> </td>
+                <td>Путь к папке на MicroSD карте для хранения фотографий отдельных аналоговых счётчиков для логирования.</td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Analog_LogfileRetentionInDays_enabled" value="1"  onclick = 'InvertEnableItem("Analog", "LogfileRetentionInDays")' unchecked>
+                </td>
+                <td><class id="Analog_LogfileRetentionInDays_text"> Время хранения файла с логами</class></td>
+                <td> <input type="number" id="Analog_LogfileRetentionInDays_value1" min="0" step="1"> </td>
+                <td>Время хранения фотографий отдельных аналоговых счётчиков в днях ("0" - хранить всегда).</td>
+            </tr>
+
+            <tr class="expert"  id="ex10">
+                <td width="20px"  style="padding-left: 40px;"> </td>
+                <td> <class id="Analog_ModelInputSize_text">Размер входного изображения</class> </td>
+                <td>
+                    <input type="number" id="Analog_ModelInputSize_value1" class="smallSelect" min="1" step="1" placeholder="Ширина по X">
+                    <input type="number" id="Analog_ModelInputSize_value2" class="smallSelect" min="1" step="1" placeholder="Высота по X">
+                </td>
+                <td>Разрешение входного изображения для CNN модели.</td>
+            </tr>
+
+            <tr>
+                <td colspan="4" style="padding-left: 20px;"><h4>Постобработка</h4></td>
+            </tr> 		
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_PreValueUse_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "PreValueUse")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_PreValueUse_text">Использовать предыдущее значение</class>
+                </td>
+                <td>
+                    <select id="PostProcessing_PreValueUse_value1">
+                        <option value="true" selected>true</option>
+                        <option value="false" >false</option>
+                    </select>
+                </td>
+                <td>
+                    Использование предыдущего прочитанного значения для проверки согласованности — также при перезагрузке.
+                </td>
+            </tr>
+            <tr class="expert"  id="ex11">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_PreValueAgeStartup_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "PreValueAgeStartup")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_PreValueAgeStartup_text">Максимальное время использования предыдущего значения (PreValueAgeStartup)</class>
+                </td>
+                <td>
+                    <input type="number" id="PostProcessing_PreValueAgeStartup_value1" size="13"  min="0">
+                </td>
+                <td>
+                    Время (в минутах), как долго предыдущее считанное значение будет использоваться после перезагрузки (по умолчанию - 720 минут).
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_AllowNegativeRates_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "AllowNegativeRates")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_AllowNegativeRates_text">Допустить то, чтобы текущее показание счётчика было меньше предыдущего</class>
+                </td>
+                <td>
+                    <select id="PostProcessing_AllowNegativeRates_value1">
+                        <option value="true" selected>true</option>
+                        <option value="false" >false</option>
+                    </select>
+                </td>
+                <td>
+                    Установите значение "false" для того, чтобы принимались изменения показаний счётчика только в положительную сторону.
+                </td>
+            </tr>
+            <tr class="expert"  id="ex12">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_ErrorMessage_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "ErrorMessage")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_ErrorMessage_text">Сообщения об ошибке</class>
+                </td>
+                <td>
+                    <select id="PostProcessing_ErrorMessage_value1">
+                        <option value="true" selected>true</option>
+                        <option value="false" >false</option>
+                    </select>
+                </td>
+                <td>
+                    Не показывать сообщение об ошибке в возвращаемом значении - в случае ошибки будет отправлено последнее действительное значение.
+                </td>
+            </tr>
+            <tr class="expert" id="ex1dddd">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_CheckDigitIncreaseConsistency_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "CheckDigitIncreaseConsistency")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_CheckDigitIncreaseConsistency_text">Проверять согласованность увеличения цифр на счётчике</class>
+                </td>
+                <td>
+                    <select id="PostProcessing_CheckDigitIncreaseConsistency_value1">
+                        <option value="true" selected>true</option>
+                        <option value="false" >false</option>
+                    </select>
+                </td>
+                <td>
+                    Дополнительная проверка согласованности, особенно проверка пересечения нуля между цифрами.
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding-left: 40px;" colspan="4">
+                    <br>
+                    <b>Постобработка отдельных параметров: 
+                    <select id="Numbers_value1" class="selectMain" onchange="numberChanged()">
+                        <option value="0" selected>По умолчанию</option>
+                        <option value="1" >NT</option>
+                        <option value="2" >HT</option>
+                    </select></b>
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_DecimalShift_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "DecimalShift")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_DecimalShift_text">Десятичный сдвиг</class>
+                </td>
+                <td>
+                    <input type="number" id="PostProcessing_DecimalShift_value1" step="1">
+                </td>
+                <td>
+                    Сдвиг разделителя цифр внутри цифровых чисел (положительных и отрицательных).
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_MaxRateValue_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "MaxRateValue")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_MaxRateValue_text">Максимальное изменение показания счётчика</class>
+                </td>
+                <td>
+                    <input type="number" id="PostProcessing_MaxRateValue_value1" size="13" min="0" step="any">
+                </td>
+                <td>
+                    Максимальное изменение показания - если рассматривается как абсолютное или относительное изменение, см. следующий параметр.
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_MaxRateType_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "MaxRateType")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_MaxRateType_text">Тип максимального изменения показания счётчика</class>
+                </td>
+                <td>
+                    <select id="PostProcessing_MaxRateType_value1">
+                        <option value="AbsoluteChange" >Абсолютное изменение</option>
+                        <option value="RateChange" selected>Относительное изменение</option>
+                    </select>
+                </td>
+                <td>
+                    Определяет, рассчитывается ли величина изменения показания по сравнению с предыдущим значением как абсолютное изменение, или как скорость, нормализованная к интервалу (Размер изменения = изменение/минута).
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_ExtendedResolution_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "ExtendedResolution")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_ExtendedResolution_text">Расширенное разрешение</class>
+                </td>
+                <td>
+                    <select id="PostProcessing_ExtendedResolution_value1">
+                        <option value="true" >true</option>
+                        <option value="false" selected>false</option>
+                    </select>
+                </td>
+                <td>
+                    Использование разрешение последней точки для последнего аналогового счетчика.
+                </td>
+            </tr>
+
+            <tr>
+                <td id="ex121" width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="PostProcessing_IgnoreLeadingNaN_enabled" value="1"  onclick = 'InvertEnableItem("PostProcessing", "IgnoreLeadingNaN")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="PostProcessing_IgnoreLeadingNaN_text">Игнорировать NaN в начале (IgnoreLeadingNaN)</class>
+                </td>
+                <td>
+                    <select id="PostProcessing_IgnoreLeadingNaN_value1">
+                        <option value="true" >true</option>
+                        <option value="false" selected>false</option>
+                    </select>
+                </td>
+                <td>
+                    "N" в начале будут удалены перед дальнейшей обработкой.
+                </td>
+            </tr>                                   
+                   
+                       
+            <tr>
+                <td colspan="4" style="padding-left: 20px;"><h4><input type="checkbox" id="Category_Firebase_enabled" value="1"  onclick = 'UpdateAfterCategoryCheck()' unchecked > Firebase</h4></td>
+            </tr> 		
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Firebase_Email_enabled" value="1"  onclick = 'InvertEnableItem("Firebase", "Email")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="Firebase_Email_text">Почта пользователя</class>
+                </td>
+                <td>
+                    <input type="text" id="Firebase_Email_value1">
+                </td>
+                <td>
+                    Почта зарегистрированного вами пользователя в моём приложении
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Firebase_Password_enabled" value="1"  onclick = 'InvertEnableItem("Firebase", "Password")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="Firebase_Password_text">Пароль пользователя</class>
+                </td>
+                <td>
+                    <input type="text" id="Firebase_Password_value1">
+                </td>
+                <td>
+                    Пароль зарегистрированного вами пользователя в моём приложении
+                </td>
+            </tr>
+                                                                        
+
+            <tr>
+                <td colspan="4" style="padding-left: 20px;"><h4>Автотаймер</h4></td>
+            </tr> 			
+            <tr class="expert"  id="ex13">
+                <td width="20px"  style="padding-left: 40px;">
+                </td>
+                <td  width="200px">
+                    <class id="AutoTimer_AutoStart_text">Автостарт</class>
+                </td>
+                <td>
+                    <select id="AutoTimer_AutoStart_value1">
+                        <option value="true" selected>true</option>
+                        <option value="false" >false</option>
+                    </select>
+                </td>
+                <td>
+                    Запуск распознавания изображений сразу после включения питания.
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                </td>
+                <td  width="200px">
+                    <class id="AutoTimer_Intervall_text">Интервал</class>
+                </td>
+                <td>
+                    <input type="number" id="AutoTimer_Intervall_value1" size="13" min="3" step="any">
+                </td>
+                <td >
+                    Интервал считывания показаний счетчика в минутах.
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4" style="padding-left: 20px;">
+                    <h4><input type="checkbox" id="Category_GPIO_enabled" value="1"  onclick='UpdateAfterCategoryCheck()' unchecked > 
+                        Настройки GPIO
+                        <span class="GPIO_item" > - Возможность настройки работы GPIO пинов и прерываний на них, или возможность отключить встроенную вспышку. Для включения встроенной вспышки используйте настройки GPIO 4. А для изменения параметров работы внешних светодиодов (светодиодной ленты) используйте настройки GPIO 12.</span>
+                    </h4>	
+                </td>
+            </tr> 	
+
+            <!------------- GPIO 0 begin ------------------>
+            <tr class="expert" class="GPIO_IO0 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="GPIO_IO0_enabled" value="1"  onclick = 'InvertEnableItem("GPIO", "IO0")' unchecked>
+                </td>
+                <td>
+                    <span id="GPIO_IO0_text" class="GPIO_IO0 GPIO_item">GPIO 0 режим работы</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO0_value1">
+                        <option value="input">Вход</option>
+                        <option value="input-pullup">Подтягивающий резистор</option>
+                        <option value="input-pulldown">Резистор на GND</option>
+                        <option value="output">Выход</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Пин GPIO 0 используется с ограничениями.<br> 
+                    <span style="color: red">Пин должен быть отключен при использовании камеры.</span><br>
+                    <span style="color: red">Этот пин используется для перехода в режим прошивки, поэтому при загрузке на пине должен быть плюс.</span>
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO0 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span id="GPIO_IO0_text" class="GPIO_IO0 GPIO_item">Режим работы прерывания</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO0_value2">
+                        <option value="disabled">Отключить</option>
+                        <option value="rising-edge">Сигнал с 0 до 1</option>
+                        <option value="falling-edge">Сигнал с 1 до 0</option>
+                        <option value="rising-and-falling">Сигнал с 0 до 1 и наоборот</option>
+                        <option value="low-level-trigger">Триггер на сигнал 0</option>
+                        <option value="high-level-trigger">Триггер на сигнал 1</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Триггер прерывания на пине.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO0 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO0 GPIO_item">Разрешение ШИМ сигнала</span>
+                </td>
+                <td>
+                    <input type="number" id="GPIO_IO0_value3" min="1" max="20">
+                </td>
+                <td class="description">
+                    Разрешение ШИМ сигнала в битах.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO0 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO0 GPIO_item">Отправка на HTTP сервер</span>
+                </td>
+                <td>
+                    <input type="checkbox" id="GPIO_IO0_value4">
+                </td>
+                <td class="description">
+                    Включение чтения/записи на HTTP сервер.
+                </td>
+            </tr>
+            <!------------- GPIO 0 end ------------------>
+
+            <!------------- GPIO 1 begin ------------------>
+            <tr class="expert" class="GPIO_IO1 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="GPIO_IO1_enabled" value="1"  onclick = 'InvertEnableItem("GPIO", "IO1")' unchecked>
+                </td>
+                <td>
+                    <span id="GPIO_IO1_text" class="GPIO_IO1 GPIO_item">GPIO 1 режим работы</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO1_value1">
+                        <option value="input">Вход</option>
+                        <option value="input-pullup">Подтягивающий резистор</option>
+                        <option value="input-pulldown">Резистор на GND</option>
+                        <option value="output">Выход</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Пин GPIO 1 <br><span style="color: blue">по умолчанию используется для последовательной связи в качестве контакта TX.<br>Нужен для работы COM порта.</span>
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO1 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO1 GPIO_item" class="expert">Режим работы прерывания</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO1_value2">
+                        <option value="disabled">Отключить</option>
+                        <option value="rising-edge">Сигнал с 0 до 1</option>
+                        <option value="falling-edge">Сигнал с 1 до 0</option>
+                        <option value="rising-and-falling">Сигнал с 0 до 1 и наоборот</option>
+                        <option value="low-level-trigger">Триггер на сигнал 0</option>
+                        <option value="high-level-trigger">Триггер на сигнал 1</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Триггер прерывания на пине.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO1 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO1 GPIO_item">Разрешение ШИМ сигнала</span>
+                </td>
+                <td>
+                    <input type="number" id="GPIO_IO1_value3" min="1" max="20">
+                </td>
+                <td class="description">
+                    Разрешение ШИМ сигнала в битах.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO1 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO1 GPIO_item">Отправка на HTTP сервер</span>
+                </td>
+                <td>
+                    <input type="checkbox" id="GPIO_IO1_value4">
+                </td>
+                <td class="description">
+                    Включение чтения/записи на HTTP сервер.
+                </td>
+            </tr>
+            <!------------- GPIO 1 end ------------------>
+
+            <!------------- GPIO 3 begin ------------------>
+            <tr class="expert" class="GPIO_IO3 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="GPIO_IO3_enabled" value="1"  onclick = 'InvertEnableItem("GPIO", "IO3")' unchecked>
+                </td>
+                <td>
+                    <span id="GPIO_IO3_text" class="GPIO_IO3 GPIO_item">GPIO 3 режим работы</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO3_value1">
+                        <option value="input">Вход</option>
+                        <option value="input-pullup">Подтягивающий резистор</option>
+                        <option value="input-pulldown">Резистор на GND</option>
+                        <option value="output">Выход</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Пин GPIO 3 <span style="color: blue">по умолчанию используется для последовательной связи в качестве контакта RX.</span>
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO3 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO3 GPIO_item">Режим работы прерывания</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO3_value2">
+                        <option value="disabled">Отключить</option>
+                        <option value="rising-edge">Сигнал с 0 до 1</option>
+                        <option value="falling-edge">Сигнал с 1 до 0</option>
+                        <option value="rising-and-falling">Сигнал с 0 до 1 и наоборот</option>
+                        <option value="low-level-trigger">Триггер на сигнал 0</option>
+                        <option value="high-level-trigger">Триггер на сигнал 1</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Триггер прерывания на пине.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO3 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO3 GPIO_item">Разрешение ШИМ сигнала</span>
+                </td>
+                <td>
+                    <input type="number" id="GPIO_IO3_value3" min="1" max="20">
+                </td>
+                <td class="description">
+                    Разрешение ШИМ сигнала в битах.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO3 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO3 GPIO_item">Отправка на HTTP сервер</span>
+                </td>
+                <td>
+                    <input type="checkbox" id="GPIO_IO3_value4">
+                </td>
+                <td class="description">
+                    Включение чтения/записи на HTTP сервер.
+                </td>
+            </tr>
+            <!------------- GPIO 3 end ------------------>
+
+            <!------------- GPIO 4 begin ------------------>
+            <tr class="GPIO_IO4 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="GPIO_IO4_enabled" value="1"  onclick = 'InvertEnableItem("GPIO", "IO4")' unchecked>
+                </td>
+                <td>
+                    <span id="GPIO_IO4_text" class="GPIO_IO4 GPIO_item">GPIO 4 режим работы</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO4_value1">
+                        <option value="input">Вход</option>
+                        <option value="input-pullup">Подтягивающий резистор</option>
+                        <option value="input-pulldown">Резистор на GND</option>
+                        <option value="output">Выход</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Пин GPIO 4 используется с ограничениями.<br> 
+                    <span style="color: red">Этот пин используется для встроенной вспышки.</span>
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO4 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO4 GPIO_item">Режим работы прерывания</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO4_value2">
+                        <option value="disabled">Отключить</option>
+                        <option value="rising-edge">Сигнал с 0 до 1</option>
+                        <option value="falling-edge">Сигнал с 1 до 0</option>
+                        <option value="rising-and-falling">Сигнал с 0 до 1 и наоборот</option>
+                        <option value="low-level-trigger">Триггер на сигнал 0</option>
+                        <option value="high-level-trigger">Триггер на сигнал 1</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Триггер прерывания на пине.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO4 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO4 GPIO_item">Разрешение ШИМ сигнала</span>
+                </td>
+                <td>
+                    <input type="number" id="GPIO_IO4_value3" min="1" max="20">
+                </td>
+                <td class="description">
+                    Разрешение ШИМ сигнала в битах.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO4 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO4 GPIO_item">Отправка на HTTP сервер</span>
+                </td>
+                <td>
+                    <input type="checkbox" id="GPIO_IO4_value4">
+                </td>
+                <td class="description">
+                    Включение чтения/записи на HTTP сервер.
+                </td>
+            </tr>
+            <!------------- GPIO 4 end ------------------>
+
+            <!------------- GPIO 12 begin ------------------>
+            <tr class="GPIO_IO12 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="GPIO_IO12_enabled" value="1"  onclick = 'InvertEnableItem("GPIO", "IO12")' unchecked>
+                </td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item" id="GPIO_IO12_text">GPIO 12 режим работы</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO12_value1">
+                        <option value="input">Вход</option>
+                        <option value="input-pullup">Подтягивающий резистор</option>
+                        <option value="input-pulldown">Резистор на GND</option>
+                        <option value="output">Выход</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Пин GPIO 12 используется без ограничений.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO12 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item">Режим работы прерывания</span>
+                </td>
+                <td>
+                    <select class="GPIO_IO12 GPIO_item" id="GPIO_IO12_value2">
+                        <option value="disabled">Отключить</option>
+                        <option value="rising-edge">Сигнал с 0 до 1</option>
+                        <option value="falling-edge">Сигнал с 1 до 0</option>
+                        <option value="rising-and-falling">Сигнал с 0 до 1 и наоборот</option>
+                        <option value="low-level-trigger">Триггер на сигнал 0</option>
+                        <option value="high-level-trigger">Триггер на сигнал 1</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Триггер прерывания на пине.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO12 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item">Разрешение ШИМ сигнала</span>
+                </td>
+                <td>
+                    <input type="number" id="GPIO_IO12_value3" min="1" max="20">
+                </td>
+                <td class="description">
+                    Разрешение ШИМ сигнала в битах.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO12 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item">Отправка на HTTP сервер</span>
+                </td>
+                <td>
+                    <input type="checkbox" id="GPIO_IO12_value4">
+                </td>
+                <td class="description">
+                    Включение чтения/записи на HTTP сервер.
+                </td>
+            </tr>
+
+            <tr class="GPIO_IO12 GPIO_item" id="wstypeex3">
+                <td width="20px" style="padding-left: 40px;">
+                </td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item" id="GPIO_LEDType_text">Тип внешнего светодиода (вспышки)</span>
+                </td>
+                <td class="GPIO_IO12 GPIO_item">
+                    <select class="GPIO_IO12 GPIO_item" id="GPIO_LEDType_value1">
+                        <option value="WS2812" selected>WS2812</option>
+                        <option value="WS2812B">WS2812B</option>
+                        <option value="SK6812">SK6812 (не проверено)</option>
+                        <option value="WS2813">WS2813 (не проверено)</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Тип светодиода WS2812x, который подключен к пину GPIO 12.
+                </td>
+            </tr>
+
+            <tr  class="GPIO_IO12 GPIO_item" id="LEDANZex8" >
+                <td  width="20px"  style="padding-left: 40px;">
+                </td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item" id="GPIO_LEDNumbers_text">Количество светодиодов</span>
+                </td>
+                <td>
+                    <input type="number" name="name" id="GPIO_LEDNumbers_value1" size="13" min="1">
+                </td>
+                <td >
+                    Количество светодиодов на светодиодной ленте. 
+                </td>
+            </tr>
+            <tr  class="GPIO_IO12 GPIO_item" id="LEDRGBex9">
+                <td width="20px"  style="padding-left: 40px;">
+                </td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item"  id="GPIO_LEDColor_text">Цвет свечения светодиодов</span>
+                </td>
+                <td  class="GPIO_IO12 GPIO_item">
+                    R <input class="smallSelect" class="GPIO_IO12 GPIO_item" id="GPIO_LEDColor_value1" size="12">
+                    G <input class="smallSelect" class="GPIO_IO12 GPIO_item" id="GPIO_LEDColor_value2" size="12">
+                    B <input class="smallSelect" class="GPIO_IO12 GPIO_item" id="GPIO_LEDColor_value3" size="12">
+                </td>
+                <td >
+                    Цвет свечения светодиодов в RGB формате от 0 до 255
+                </td>
+            </tr>
+            <!------------- GPIO 12 end ------------------>
+
+            <!------------- GPIO 13 begin ------------------>
+            <tr class="expert" class="GPIO_IO13 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="GPIO_IO13_enabled" value="1"  onclick = 'InvertEnableItem("GPIO", "IO13")' unchecked>
+                </td>
+                <td>
+                    <span class="GPIO_IO12 GPIO_item" id="GPIO_IO13_text">GPIO 13 режим работы</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO13_value1">
+                        <option value="input">Вход</option>
+                        <option value="input-pullup">Подтягивающий резистор</option>
+                        <option value="input-pulldown">Резистор на GND</option>
+                        <option value="output">Выход</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Пин GPIO 13 используется без ограничений.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO13 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO13 GPIO_item">Режим работы прерывания</span>
+                </td>
+                <td>
+                    <select id="GPIO_IO13_value2">
+                        <option value="disabled">Отключить</option>
+                        <option value="rising-edge">Сигнал с 0 до 1</option>
+                        <option value="falling-edge">Сигнал с 1 до 0</option>
+                        <option value="rising-and-falling">Сигнал с 0 до 1 и наоборот</option>
+                        <option value="low-level-trigger">Триггер на сигнал 0</option>
+                        <option value="high-level-trigger">Триггер на сигнал 1</option>
+                    </select>
+                </td>
+                <td class="description">
+                    Триггер прерывания на пине.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO13 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO13 GPIO_item">Разрешение ШИМ сигнала</span>
+                </td>
+                <td>
+                    <input type="number" id="GPIO_IO13_value3" min="1" max="20">
+                </td>
+                <td class="description">
+                    Разрешение ШИМ сигнала в битах.
+                </td>
+            </tr>
+            <tr class="expert" class="GPIO_IO13 GPIO_item">
+                <td width="20px"  style="padding-left: 40px;"></td>
+                <td>
+                    <span class="GPIO_IO13 GPIO_item">Отправка на HTTP сервер</span>
+                </td>
+                <td>
+                    <input type="checkbox" id="GPIO_IO13_value4">
+                </td>
+                <td class="description">
+                    Включение чтения/записи на HTTP сервер.
+                </td>
+            </tr>
+            <!------------- GPIO 13 end ------------------>
+
+            <tr>
+                <td colspan="4" style="padding-left: 20px;"><h4>Отладка</h4></td>
+            </tr> 		
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Debug_Logfile_enabled" value="1"  onclick = 'InvertEnableItem("Debug", "Logfile")' unchecked >
+                </td>
+                <td  width="200px">
+                    <class id="Debug_Logfile_text">Расширенное логирование</class>
+                </td>
+                <td>
+                    <select id="Debug_Logfile_value1">
+                        <option value="true" selected>true</option>
+                        <option value="false" >false</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="Debug_LogfileRetentionInDays_enabled" value="1"  onclick = 'InvertEnableItem("Debug", "LogfileRetentionInDays")' unchecked>
+                </td>
+                <td>
+                    <class id="Debug_LogfileRetentionInDays_text">Хранение файла с логами</class>
+                </td>
+                <td>
+                    <input type="number" id="Debug_LogfileRetentionInDays_value1" size="13"  min="0" step="1">
+                </td>
+                <td class="description">
+                    Время хранения файла с логами в днях ("0" = хранить всегда)
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4" style="padding-left: 20px;"><h4>Настройка получения времени</h4></td>
+            </tr> 	
+            <tr>
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="System_TimeZone_enabled" value="1"  onclick = 'InvertEnableItem("System", "TimeZone")' unchecked>
+                </td>
+                <td>
+                    <class id="System_TimeZone_text">Часовой пояс</class>
+                </td>
+                <td>
+                    <input type="text" id="System_TimeZone_value1">
+                </td>
+                <td class="description">
+                    Часовой пояс в формате POSIX (Европа/Киев = "CET-2CEST,M3.5.0,M10.5.0/3" - включает летнее время)
+                </td>
+            </tr>
+            <tr class="expert"  id="ex16">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="System_TimeServer_enabled" value="1"  onclick = 'InvertEnableItem("System", "TimeServer")' unchecked>
+                </td>
+                <td>
+                    <class id="System_TimeServer_text">URL NTP сервера</class>
+                </td>
+                <td>
+                    <input type="text" id="System_TimeServer_value1">
+                </td>
+                <td class="description">
+                    Адрес NTP сервера для синхронизации системного времени (если ничего не указано, используется "pool.ntp.org").
+                </td>
+            </tr>
+            <tr class="expert"  id="System_Hostname">
+                <td width="20px"  style="padding-left: 40px;">
+                    <input type="checkbox" id="System_Hostname_enabled" value="1"  onclick = 'InvertEnableItem("System", "Hostname")' unchecked>
+                </td>
+                <td>
+                    <class id="System_Hostname_text">Название хоста</class>
+                </td>
+                <td>
+                    <input type="text" id="System_Hostname_value1">
+                </td>
+                <td class="description">
+                    Название хоста на сервере - при следующей перезагрузке будет записан в файл wlan.ini на MicroSD карте).
+                </td>
+            </tr>
+
+        </table>
+
+        <p><button class="button" onclick="saveTextAsFile()">Обновить файл Config.ini</button></p>
+        <p></p>
+        <div id="doreboot" style="margin-top: -16px">
+            <p><button class="button" id="Edit_Config_Direct" onclick="editConfigDirect()" style="display:none;">Редактировать Config.ini напрямую</button>
+
+            <button class="button" id="reboot" type="button" onclick="doReboot()">Перезагрузить плату ESP32</button></p>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="./gethost.js"></script> 
+    <script type="text/javascript" src="./readconfigcommon.js"></script>  
+    <script type="text/javascript" src="./readconfigparam.js"></script>  
+
+    <script type="text/javascript">
+        var canvas = document.getElementById('canvas'),
+            basepath = "http://192.168.178.22"; 
+            param;
+            category;
+            NUNBERSAkt = -1;
+            NUMBERS;
+
+        function LoadConfigNeu() {
+            var isInitialSetup = getParameterByName('InitialSetup');
+            if (isInitialSetup === 'true')
+            {
+                document.getElementById("reboot").style.display = "none";
+            }
+
+            basepath = getbasepath(); 
+            if (!loadConfig(basepath)) {
+                alert("Не получилось загрузить файл Config.ini!\nПопробуйте перезагрузить страницу.");
+                return;
+            } 
+            ParseConfig();	
+            param = getConfigParameters();
+            category = getConfigCategory();
+            InitIndivParameter();
+
+            UpdateInput();
+            UpdateInputIndividual();
+            UpdateExpertModus();
+            document.getElementById("divall").style.display = ''; 
+        }
+
+        function InitIndivParameter()
+        {
+            NUMBERS = getNUMBERInfo();
+
+            var _index = document.getElementById("Numbers_value1");
+            while (_index.length)
+                _index.remove(0);
+
+            for (var i = 0; i < NUMBERS.length; ++i){
+                var option = document.createElement("option");
+                option.text = NUMBERS[i]["name"];
+                option.value = i;
+                _index.add(option);
+                }
+            _index.selectedIndex = 0; 
+        }
+
+
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }	
+
+        function WriteParameter(_param, _category, _cat, _name, _optional, _number = -1){
+
+            let anzpara = _param[_cat][_name].anzParam;		
+
+            if (_number > -1) {
+                if ((NUMBERS[_number] == undefined) || (NUMBERS[_number][_cat] == undefined) ||  (NUMBERS[_number][_cat][_name] == undefined))
+                    return;
+
+                if (_optional) {
+                    document.getElementById(_cat+"_"+_name+"_enabled").checked = NUMBERS[_number][_cat][_name]["enabled"];
+                    for (var j = 1; j <= anzpara; ++j) {
+                        document.getElementById(_cat+"_"+_name+"_value"+j).disabled = !NUMBERS[_number][_cat][_name]["enabled"];	
+                    }		
+                }
+                document.getElementById(_cat+"_"+_name+"_text").style="color:#7F8C37;"
+                setEnabled(_cat+"_"+_name, true);
+
+                for (var j = 1; j <= anzpara; ++j) {
+                    let element = document.getElementById(_cat+"_"+_name+"_value"+j);
+                    if (element.tagName.toLowerCase() == "select") {
+                        var textToFind = NUMBERS[_number][_cat][_name]["value"+j];
+                        if (textToFind == undefined)
+                            continue;
+
+                        _isFound = false;
+                        element.selectedIndex = -1;
+                        for (var i = 0; i < element.options.length; i++) {
+                            if (element.options[i].value.toLowerCase() === textToFind.toLowerCase()) {
+                                element.selectedIndex = i;
+                                _isFound = true;
+                                break;
+                            }
+                        }
+                        if (!_isFound)
+                        {
+                            _zw_txt = "В поле \"" + textToFind + "\" в параметре\"";
+                            _zw_txt = _zw_txt + _cat + " В поле '" + _name + "' значение неверное!\nПроверьте значение перед тем как сохранить.";
+                            //alert(_zw_txt);
+                        }
+                    }
+                    else if ((element.getAttribute("type") != null) && (element.getAttribute("type").toLowerCase() == "checkbox")) {
+                        element.checked = NUMBERS[_number][_cat][_name]["value"+j] == "true";
+                    }
+                    else {
+                        element.value = NUMBERS[_number][_cat][_name]["value"+j];
+                    }
+                }
+            }
+            else {
+                if (_optional) {
+                    document.getElementById(_cat+"_"+_name+"_enabled").checked = _param[_cat][_name]["enabled"];
+                    for (var j = 1; j <= anzpara; ++j) {
+                        document.getElementById(_cat+"_"+_name+"_value"+j).disabled = !_param[_cat][_name]["enabled"];	
+                    }		
+                }
+                document.getElementById(_cat+"_"+_name+"_text").style="color:#7F8C37;"
+                setEnabled(_cat+"_"+_name, true);
+
+                for (var j = 1; j <= anzpara; ++j) {
+                    let element = document.getElementById(_cat+"_"+_name+"_value"+j);
+                    if (element.tagName.toLowerCase() == "select") {
+                        var textToFind = _param[_cat][_name]["value"+j];
+                        if (textToFind == undefined)
+                            continue;
+
+                        _isFound = false;
+                        element.selectedIndex = -1;
+                        for (var i = 0; i < element.options.length; i++) {
+                            if (element.options[i].value.toLowerCase() === textToFind.toLowerCase()) {
+                                element.selectedIndex = i;
+                                _isFound = true;
+                                break;
+                            }
+                        }
+                        if (!_isFound)
+                        {
+                            _zw_txt = "В разделе \"";
+                            _zw_txt = _zw_txt + _cat + "\", в поле \"" + _name + "\" значение неверное!";
+                            //alert(_zw_txt);
+                        }
+
+                    }
+                    else if ((element.getAttribute("type") != null) && (element.getAttribute("type").toLowerCase() == "checkbox")) {
+                        element.checked = _param[_cat][_name]["value"+j] == "true";
+                    }
+                    else {
+                        element.value = _param[_cat][_name]["value"+j];
+                    }
+                }	
+            }
+
+            ///////////////// am Ende, falls Kategorie als gesamtes nicht ausgewählt --> deaktivieren
+            if (_category[_cat]["enabled"] == false) 
+            {
+                if (_optional) {
+                    document.getElementById(_cat+"_"+_name+"_enabled").disabled = true;	
+                    for (var j = 1; j <= anzpara; ++j) {
+                        document.getElementById(_cat+"_"+_name+"_value"+j).disabled = true;	
+                    }	
+                }
+                document.getElementById(_cat+"_"+_name+"_text").style="color:lightgrey;"		
+                setEnabled(_cat+"_"+_name, false);
+            }
+
+            EnDisableItem(_category[_cat]["enabled"], _param, _category, _cat, _name, _optional, _number);
+        }
+
+        function InvertEnableItem(_cat, _param)
+        {
+            _zw = _cat + "_" + _param + "_enabled";
+            _isOn = document.getElementById(_zw).checked;
+
+            _color = "lightgrey";
+            if (_isOn) {
+                _color = "#7F8C37";
+            }
+
+            _zw = _cat + "_" + _param + "_text";
+            document.getElementById(_zw).disabled = !_isOn;
+            document.getElementById(_zw).style = _color;
+
+            setEnabled(_cat + "_" + _param, _isOn);
+
+            for (var j = 1; j <= param[_cat][_param]["anzParam"]; ++j) {
+                document.getElementById(_cat + "_" + _param + "_value"+j).disabled = !_isOn;	
+                document.getElementById(_cat + "_" + _param + "_value"+j).style.color = _color;
+                document.getElementById(_cat + "_" + _param + "_value"+j).style.borderColor = _color;
+            }
+        }
+
+        function setEnabled(className, enabled) {
+            _color = "lightgrey";
+            if (enabled) {
+                _color = "#7F8C37";
+            }
+
+            let elements = document.getElementsByClassName(className);
+            for (i = 0; i < elements.length; i++) {
+                if (enabled) {
+                    elements[i].classList.remove("disabled");
+                } else {
+                    elements[i].classList.add("disabled");
+                }
+
+                let inputs = elements[i].getElementsByTagName("input");
+                for (j = 0; j < inputs.length; j++) {
+                    if (inputs[j].id.endsWith("_enabled"))
+                        continue;
+
+                    inputs[j].style = _color
+                    if (enabled) {
+                        inputs[j].removeAttribute("disabled");
+                    } else {
+                        inputs[j].setAttribute("disabled", "disabled");
+                    }
+                }
+            }
+        }
+
+        function setVisible(className, visible) {
+            let elements = document.getElementsByClassName(className);
+            for (i = 0; i < elements.length; i++) {
+                if (visible) {
+                    elements[i].classList.remove("hidden");
+                } else {
+                    elements[i].classList.add("hidden");
+                }
+            }
+        }
+
+        function EnDisableItem(_status, _param, _category, _cat, _name, _optional, _number = -1)
+        {
+            _status = _category[_cat]["enabled"];
+
+            _color = "lightgrey";
+            if (_status) {
+                _color = "#7F8C37";
+            }
+
+            if (_optional) {
+                document.getElementById(_cat+"_"+_name+"_enabled").disabled = !_status;
+                document.getElementById(_cat+"_"+_name+"_enabled").style.color = _color;	
+            }
+
+            if (_number == -1){
+                if (!_param[_cat][_name]["enabled"]) {
+                    _status = false;
+                    _color = "lightgrey";
+                }
+            }
+            else
+                if (!NUMBERS[_number][_cat][_name]["enabled"]) {
+                        _status = false;
+                        _color = "lightgrey";
+                    }
+
+
+            document.getElementById(_cat+"_"+_name+"_text").disabled = !_status;
+            document.getElementById(_cat+"_"+_name+"_text").style = _color;
+
+            setEnabled(_cat+"_"+_name, _status);
+
+            for (var j = 1; j <= _param[_cat][_name]["anzParam"]; ++j) {
+                document.getElementById(_cat + "_" + _name + "_value"+j).disabled = !_status;
+                document.getElementById(_cat + "_" + _name + "_value"+j).style.color = _color;
+                document.getElementById(_cat + "_" + _name + "_value"+j).style.borderColor = _color;
+            }
+        }
+
+
+        function ReadParameter(_param, _cat, _name, _optional, _number = -1){
+            if (_number > -1) {
+                if (_cat == "Digits")
+                    _cat = "digit";
+                if (_cat == "Analog")
+                    _cat = "analog";
+
+                if ((NUMBERS[_number] == undefined) || (NUMBERS[_number][_cat] == undefined) ||  (NUMBERS[_number][_cat][_name] == undefined))
+                    return;
+
+
+                if (_optional) {
+                    NUMBERS[_number][_cat][_name]["enabled"] = document.getElementById(_cat+"_"+_name+"_enabled").checked;			
+                }
+
+                for (var j = 1; j <= _param[_cat][_name]["anzParam"]; ++j) {
+                    let element = document.getElementById(_cat+"_"+_name+"_value"+j);
+                    if (element.tagName.toLowerCase() == "select") {
+                        NUMBERS[_number][_cat][_name]["value"+j] = element.selectedIndex > -1 ? element.options[element.selectedIndex].value : "";
+                    }
+                    else if ((element.getAttribute("type") != null) && (element.getAttribute("type").toLowerCase() == "checkbox")) {
+                        NUMBERS[_number][_cat][_name]["value"+j] = element.checked;
+                    }
+                    else {
+                        if ((NUMBERS[_number][_cat][_name].checkRegExList != null) && (NUMBERS[_number][_cat][_name].checkRegExList[j-1] != null)) {
+                            if (!element.value.match(NUMBERS[_cat][_name].checkRegExList[j-1])) {
+                                element.classList.add("invalid-input");
+                            } else {
+                                element.classList.remove("invalid-input");
+                            }
+                        }
+                        NUMBERS[_number][_cat][_name]["value"+j] = element.value;	
+                    }
+                }
+            }
+            else
+            {
+                if (_optional) {
+                    _param[_cat][_name]["enabled"] = document.getElementById(_cat+"_"+_name+"_enabled").checked;			
+                }
+
+                for (var j = 1; j <= _param[_cat][_name]["anzParam"]; ++j) {
+                    let element = document.getElementById(_cat+"_"+_name+"_value"+j);
+                    if (element.tagName.toLowerCase() == "select") {
+                        _param[_cat][_name]["value"+j] = element.selectedIndex > -1 ? element.options[element.selectedIndex].value : "";
+                    }
+                    else if ((element.getAttribute("type") != null) && (element.getAttribute("type").toLowerCase() == "checkbox")) {
+                        _param[_cat][_name]["value"+j] = element.checked;
+                    }
+                    else {
+                        if ((_param[_cat][_name].checkRegExList != null) && (_param[_cat][_name].checkRegExList[j-1] != null)) {
+                            if (!element.value.match(_param[_cat][_name].checkRegExList[j-1])) {
+                                element.classList.add("invalid-input");
+                            } else {
+                                element.classList.remove("invalid-input");
+                            }
+                        }
+                        _param[_cat][_name]["value"+j] = element.value;	
+                    }
+                }		
+            }
+        }
+
+        function UpdateInputIndividual()
+        {
+            if (NUNBERSAkt != -1)
+            {
+                ReadParameter(param, "PostProcessing", "DecimalShift", true, NUNBERSAkt)		
+                ReadParameter(param, "PostProcessing", "MaxRateValue", true, NUNBERSAkt)		
+                ReadParameter(param, "PostProcessing", "MaxRateType", true, NUNBERSAkt)		
+                ReadParameter(param, "PostProcessing", "ExtendedResolution", true, NUNBERSAkt)		
+                ReadParameter(param, "PostProcessing", "IgnoreLeadingNaN", true, NUNBERSAkt)		
+            }
+
+            var sel = document.getElementById("Numbers_value1");
+            NUNBERSAkt = sel.selectedIndex;
+            WriteParameter(param, category, "PostProcessing", "DecimalShift", true, NUNBERSAkt);
+            WriteParameter(param, category, "PostProcessing", "MaxRateValue", true, NUNBERSAkt);
+            WriteParameter(param, category, "PostProcessing", "MaxRateType", true, NUNBERSAkt);
+            WriteParameter(param, category, "PostProcessing", "ExtendedResolution", true, NUNBERSAkt);
+            WriteParameter(param, category, "PostProcessing", "IgnoreLeadingNaN", true, NUNBERSAkt);
+        }
+
+        function UpdateInput() {
+            document.getElementById("Category_Analog_enabled").checked = category["Analog"]["enabled"];
+            document.getElementById("Category_Digits_enabled").checked = category["Digits"]["enabled"];
+            document.getElementById("Category_Firebase_enabled").checked = category["Firebase"]["enabled"];
+            document.getElementById("Category_GPIO_enabled").checked = category["GPIO"]["enabled"];
+            setVisible("GPIO_item", category["GPIO"]["enabled"]);
+
+            WriteParameter(param, category, "MakeImage", "LogImageLocation", true);
+            WriteParameter(param, category, "MakeImage", "LogfileRetentionInDays", true);
+            WriteParameter(param, category, "MakeImage", "WaitBeforeTakingPicture", false);		
+            WriteParameter(param, category, "MakeImage", "ImageQuality", false);		
+            WriteParameter(param, category, "MakeImage", "Brightness", false);		
+            WriteParameter(param, category, "MakeImage", "Contrast", false);		
+            WriteParameter(param, category, "MakeImage", "Saturation", false);		
+            WriteParameter(param, category, "MakeImage", "LEDIntensity", false);		
+            WriteParameter(param, category, "MakeImage", "ImageSize", false);		
+            WriteParameter(param, category, "MakeImage", "FixedExposure", false);		
+
+            WriteParameter(param, category, "Alignment", "SearchFieldX", false);		
+            WriteParameter(param, category, "Alignment", "SearchFieldY", false);		
+            WriteParameter(param, category, "Alignment", "AlignmentAlgo", true);		
+
+        //	WriteParameter(param, category, "Digits", "Model", false);		
+            WriteParameter(param, category, "Digits", "LogImageLocation", true);		
+            WriteParameter(param, category, "Digits", "LogfileRetentionInDays", true);		
+            WriteParameter(param, category, "Digits", "ModelInputSize", false);	
+
+        //	WriteParameter(param, category, "Analog", "Model", false);		
+            WriteParameter(param, category, "Analog", "LogImageLocation", true);		
+            WriteParameter(param, category, "Analog", "LogfileRetentionInDays", true);		
+        //	WriteParameter(param, category, "Analog", "ExtendedResolution", true);		
+            WriteParameter(param, category, "Analog", "ModelInputSize", false);		
+
+            WriteParameter(param, category, "PostProcessing", "PreValueUse", true);		
+            WriteParameter(param, category, "PostProcessing", "PreValueAgeStartup", true);		
+            WriteParameter(param, category, "PostProcessing", "AllowNegativeRates", true);
+        //	WriteParameter(param, category, "PostProcessing", "MaxRateValue", true);		
+            WriteParameter(param, category, "PostProcessing", "ErrorMessage", true);
+            WriteParameter(param, category, "PostProcessing", "CheckDigitIncreaseConsistency", true);
+
+            WriteParameter(param, category, "Firebase", "Email", true);	
+            WriteParameter(param, category, "Firebase", "Password", true);
+
+            WriteParameter(param, category, "GPIO", "IO0", true);
+            WriteParameter(param, category, "GPIO", "IO1", true);
+            WriteParameter(param, category, "GPIO", "IO3", true);
+            WriteParameter(param, category, "GPIO", "IO4", true);
+            WriteParameter(param, category, "GPIO", "IO12", true);
+            WriteParameter(param, category, "GPIO", "IO13", true);
+            WriteParameter(param, category, "GPIO", "LEDType", false);
+            WriteParameter(param, category, "GPIO", "LEDNumbers", false);
+            WriteParameter(param, category, "GPIO", "LEDColor", false);
+
+            WriteParameter(param, category, "AutoTimer", "AutoStart", false);	
+            WriteParameter(param, category, "AutoTimer", "Intervall", false);	
+
+            WriteParameter(param, category, "Debug", "Logfile", true);	
+            WriteParameter(param, category, "Debug", "LogfileRetentionInDays", true);	
+
+            WriteParameter(param, category, "System", "TimeZone", true);	
+            WriteParameter(param, category, "System", "Hostname", true);	
+            WriteParameter(param, category, "System", "TimeServer", true);
+
+            WriteModelFiles();
+        }
+
+        function WriteModelFiles()
+        {
+            list_tflite = getTFLITEList();
+
+            var _index1 = document.getElementById("Digits_Model_value1");
+            var _index2 = document.getElementById("Analog_Model_value1");
+            while (_index1.length)
+                _index1.remove(0);
+            while (_index2.length)
+                _index2.remove(0);
+
+            for (var i = 0; i < list_tflite.length; ++i){
+                var option1 = document.createElement("option");
+                var option2 = document.createElement("option");
+                option1.text = list_tflite[i];
+                option1.value = list_tflite[i];
+                option2.text = list_tflite[i];
+                option2.value = list_tflite[i];
+                _index1.add(option1);
+                _index2.add(option2);
+                }
+
+            WriteParameter(param, category, "Analog", "Model", false);		
+            WriteParameter(param, category, "Digits", "Model", false);		
+        }
+
+        function ReadParameterAll()
+        {
+            category["Analog"]["enabled"] = document.getElementById("Category_Analog_enabled").checked;
+            category["Digits"]["enabled"] = document.getElementById("Category_Digits_enabled").checked;
+            category["Firebase"]["enabled"] = document.getElementById("Category_Firebase_enabled").checked;
+            category["GPIO"]["enabled"] = document.getElementById("Category_GPIO_enabled").checked;
+
+            ReadParameter(param, "MakeImage", "LogImageLocation", true);
+            ReadParameter(param, "MakeImage", "LogfileRetentionInDays", true);
+            ReadParameter(param, "MakeImage", "WaitBeforeTakingPicture", false);		
+            ReadParameter(param, "MakeImage", "ImageQuality", false);		
+            ReadParameter(param, "MakeImage", "Brightness", false);		
+            ReadParameter(param, "MakeImage", "Contrast", false);		
+            ReadParameter(param, "MakeImage", "Saturation", false);		
+            ReadParameter(param, "MakeImage", "LEDIntensity", false);		
+            ReadParameter(param, "MakeImage", "ImageSize", false);	
+            ReadParameter(param, "MakeImage", "FixedExposure", false);	
+
+            ReadParameter(param, "Alignment", "SearchFieldX", false);		
+            ReadParameter(param, "Alignment", "SearchFieldY", false);
+            ReadParameter(param, "Alignment", "AlignmentAlgo", true);
+
+            ReadParameter(param, "Digits", "Model", false);		
+            ReadParameter(param, "Digits", "LogImageLocation", true);		
+            ReadParameter(param, "Digits", "LogfileRetentionInDays", true);		
+            ReadParameter(param, "Digits", "ModelInputSize", false);
+
+            ReadParameter(param, "Analog", "Model", false);		
+            ReadParameter(param, "Analog", "LogImageLocation", true);		
+            ReadParameter(param, "Analog", "LogfileRetentionInDays", true);		
+            ReadParameter(param, "Analog", "ModelInputSize", false);
+
+            ReadParameter(param, "PostProcessing", "PreValueUse", true);		
+            ReadParameter(param, "PostProcessing", "PreValueAgeStartup", true);		
+            ReadParameter(param, "PostProcessing", "AllowNegativeRates", true);
+            ReadParameter(param, "PostProcessing", "ErrorMessage", true);
+            ReadParameter(param, "PostProcessing", "CheckDigitIncreaseConsistency", true);
+
+            ReadParameter(param, "Firebase", "Email", true);	
+            ReadParameter(param, "Firebase", "Password", true);
+
+            ReadParameter(param, "GPIO", "IO0", true);
+            ReadParameter(param, "GPIO", "IO1", true);
+            ReadParameter(param, "GPIO", "IO3", true);
+            ReadParameter(param, "GPIO", "IO4", true);
+            ReadParameter(param, "GPIO", "IO12", true);
+            ReadParameter(param, "GPIO", "IO13", true);
+            ReadParameter(param, "GPIO", "LEDType", false);
+            ReadParameter(param, "GPIO", "LEDNumbers", false);
+            ReadParameter(param, "GPIO", "LEDColor", false);
+            // Folgende Zeilen sind für Abwärtskompatibität < v9.0.0 notwendig (manchmal parameter auskommentiert)
+            param["GPIO"]["LEDType"]["enabled"] = true;
+            param["GPIO"]["LEDNumbers"]["enabled"] = true;
+            param["GPIO"]["LEDColor"]["enabled"] = true;
+            param["GPIO"]["LEDType"]["found"] = true;
+            param["GPIO"]["LEDNumbers"]["found"] = true;
+            param["GPIO"]["LEDColor"]["found"] = true;
+
+            ReadParameter(param, "AutoTimer", "AutoStart", false);	
+            ReadParameter(param, "AutoTimer", "Intervall", false);	
+
+            ReadParameter(param, "Debug", "Logfile", true);	
+            ReadParameter(param, "Debug", "LogfileRetentionInDays", true);	
+
+            ReadParameter(param, "System", "TimeZone", true);	
+            ReadParameter(param, "System", "Hostname", true);	
+            ReadParameter(param, "System", "TimeServer", true);	
+
+            UpdateInputIndividual();
+
+        //	FormatDecimalValue(param, "PostProcessing", "MaxRateValue");
+        }
+
+
+        function FormatDecimalValue(_param, _cat, _name) {
+            for (var j = 1; j <= _param[_cat][_name]["anzParam"]; ++j) {
+                var _val = _param[_cat][_name]["value"+j];
+                _val = _val.replace(",", ".");
+                _param[_cat][_name]["value"+j] = _val;
+            }
+        }
+
+        function UpdateAfterCategoryCheck() {
+            ReadParameterAll();
+            category["Analog"]["enabled"] = document.getElementById("Category_Analog_enabled").checked;
+            category["Digits"]["enabled"] = document.getElementById("Category_Digits_enabled").checked;
+            category["Firebase"]["enabled"] = document.getElementById("Category_Firebase_enabled").checked;
+            UpdateInput();
+            UpdateInputIndividual();
+        }
+
+        function UpdateExpertModus()
+        {
+        //	var _style = 'display:none;';
+            var _style_pur = 'none';
+            var _hidden = true;
+            if (document.getElementById("ExpertModus_enabled").checked) {
+        //		_style = '';
+                _style_pur = '';
+                _hidden = false;
+                document.getElementById("Edit_Config_Direct").style.display = ""; 
+            }
+            else
+            {
+                document.getElementById("Edit_Config_Direct").style.display = "none"; 
+            }
+
+            const expert = document.querySelectorAll(".expert");
+            for (var i = 0; i < expert.length; i++) {
+                expert[i].style.display = _style_pur;
+        //		document.getElementById(expert[i].id).style = _style;
+            }
+
+
+            // Enable / Disable die Optionen in den Menues für die Auswahl. Falls kein Expertenmodus soll nur ein Wert (built-in-led oder externan-flash-ws281x) möglich sein
+            Array.from(document.querySelector("#GPIO_IO4_value1").options).forEach(function(option_element) {
+                if (option_element.value != "built-in-led")
+                    option_element.hidden = _hidden;
+            });	
+
+            Array.from(document.querySelector("#GPIO_IO12_value1").options).forEach(function(option_element) {
+                if (option_element.value != "external-flash-ws281x")
+                    option_element.hidden = _hidden;
+            });	
+
+        }
+
+        function saveTextAsFile()
+        {
+            ReadParameterAll();
+            if (document.getElementsByClassName("invalid-input").length > 0) {
+                alert("Настройки не получается сохранить. Проверьте свои записи.");
+                return;
+            }
+
+            if (confirm("Вы точно хотите сохранить файл Config.ini?")) {
+                ReadParameterAll();
+                WriteConfigININew();
+                SaveConfigToServer(basepath);
+                alert("Файл Config.ini обновлён!")
+            }
+        }
+
+        function doReboot() {
+            if (confirm("Вы точно хотите перезагрузить плату ESP32-CAM?")) {
+                var stringota = "/reboot";
+                window.location = stringota;
+                window.location.href = stringota;
+                window.location.assign(stringota);
+                window.location.replace(stringota);
+            }
+        }
+
+        function editConfigDirect() {
+            if (confirm("Вы сохранили все изменения?")) {
+                var stringota = "/edit_config.html";
+                window.location = stringota;
+                window.location.href = stringota;
+                window.location.assign(stringota);
+                window.location.replace(stringota);
+            }	
+        }
+
+        function numberChanged()
+        {
+            UpdateInputIndividual();
+        }
+
+        LoadConfigNeu();
+        </script>
+    </body>
+</html>

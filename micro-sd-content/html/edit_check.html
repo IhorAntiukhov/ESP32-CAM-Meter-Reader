@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:,">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Проверка</title>
+        <style>
+            p {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            td {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            .button {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                font-size: 20px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button:focus {
+                transition: 0.15s;
+                border-color: #7F8C37;
+                color: #7F8C37;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr><td colspan="2">Результат:</td></tr>
+            <tr>
+                <td>
+                    <iframe name="maincontent" id ="maincontent" width="700px" height="700px"></iframe> 
+                </td>
+                <td style="padding-left: 15px;">
+                    <p>
+                        <button class="button" type="submit" id="take" onclick="doTake()">1. Сделайте фото</button>
+                    </p>
+                    <p>
+                        <button class="button" type="submit" id="align" onclick="doAlign()">2. Выровняйте изображение</button><br>
+                    </p>
+                    <p>Это может занять до 2 минут!</p>			
+                    <p>Распознавание цифровых и аналоговых счётчиков еще не прошло</p>
+                    <p>
+                        <button class="button" type="submit" id="digits" onclick="doDigits()">3a. Анализ цифровых счётчиков</button>    
+                    </p>
+                    <p>
+                        <button class="button" type="submit" id="analog" onclick="doAnalog()">3b. Анализ аналоговых счётчиков</button>    
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+        <script type="text/javascript" src="./gethost.js"></script> 
+        <script type="text/javascript" src="./readconfig.js"></script>  
+
+        <script type="text/javascript">
+            var basepath = "http://192.168.178.26";
+
+            function doAnalog(){
+                var xhttp = new XMLHttpRequest();
+                url = basepath + "/editflow.html?task=test_analog";
+                if (basepath.length > 0){
+                    url = url + "&host=" + basepath;
+                }        
+                xhttp.open("GET", url, false);
+                xhttp.send();
+                var html = xhttp.responseText;
+                html = html.replace("src=\"/", "src=\"" + basepath + "/");
+
+                document.getElementById("maincontent").src = 'data:text/html,' + encodeURIComponent(html);
+            }
+
+
+            function doDigits(){
+                var xhttp = new XMLHttpRequest();
+                url = basepath + "/editflow.html?task=test_digits";
+                if (basepath.length > 0){
+                    url = url + "&host=" + basepath;
+                }        
+                xhttp.open("GET", url, false);
+                xhttp.send();
+                var html = xhttp.responseText;
+                html = html.replace("src=\"/", "src=\"" + basepath + "/");
+
+                document.getElementById("maincontent").src = 'data:text/html,' + encodeURIComponent(html);
+            }
+
+
+            function doAlign(){
+                var xhttp = new XMLHttpRequest();
+                url = basepath + "/editflow.html?task=test_align";
+                if (basepath.length > 0){
+                    url = url + "&host=" + basepath;
+                }        
+                xhttp.open("GET", url, false);
+                xhttp.send();
+                var html = xhttp.responseText;
+                html = html.replace("src=\"/", "src=\"" + basepath + "/");
+
+                document.getElementById("maincontent").src = 'data:text/html,' + encodeURIComponent(html);
+
+                document.getElementById("align").disabled = false;
+            }
+
+
+            function doTake(){
+                var xhttp = new XMLHttpRequest();
+                url = basepath + "/editflow.html?task=test_take";
+                if (basepath.length > 0){
+                    url = url + "&host=" + basepath;
+                }
+                xhttp.open("GET", url, false);
+                xhttp.send();
+                var html = xhttp.responseText;
+                document.getElementById("maincontent").src = 'data:text/html,' + encodeURIComponent(html);
+
+                document.getElementById("align").disabled = false;
+                document.getElementById("digits").disabled = true;
+                document.getElementById("analog").disabled = true;    
+            }
+
+            function Init(){
+                basepath = getbasepath();
+                document.getElementById("align").disabled = true;
+                document.getElementById("digits").disabled = true;
+                document.getElementById("analog").disabled = true;
+            }
+
+            Init();
+
+        </script>
+    </body>
+</html>

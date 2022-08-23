@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:,">
+        <title>Обновление OTA</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h1 {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+                margin-block-start: 0.0em;
+                margin-block-end: 0.2em;
+            }
+            h2 {
+                font-size: 18px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            td {
+                font-size: 18px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            input[type="text"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                width: 150px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="text"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="text"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            input[type="number"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                width: 150px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="number"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="number"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            .inputFile {
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: -1;
+            }
+            .inputFile + label {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                margin-right: 2px;
+                padding-left: 6px;
+                padding-right: 6px;
+                padding-top: 1px;
+                padding-bottom: 2px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .inputFile:focus + label,
+            .inputFile + label:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                margin-right: 2px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button:focus {
+                transition: 0.15s;
+                border-color: #7F8C37;
+                color: #7F8C37;
+            }
+        </style>
+    </head>
+    <body style="padding: 0px 10px;">
+        <h1 style="color: #616B2A"><em>Настоятельно рекомендуется одновременно обновлять прошивку и содержимое папки "html" на SD-карте!</em></h1>
+        <h2>1. Обновление прошивки</h2>
+        <table border="0">
+            <tr>
+                <td>
+                    <table border="0">
+                        <tr>
+                            <td style="width: 230px">
+                                <label>Выберите файл прошивки:</label>
+                            </td>
+                            <td colspan="2">
+                                <input class="inputFile" id="newfile" type="file" onchange="setpath()" style="width:100%;">
+                                <label for="newfile"><span>Добавить Файл</span></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="700px">
+                                <label for="filepath">Путь на Micro SD карте:</label>
+                            </td>
+                            <td>
+                                <input id="filepath" type="text" style="width:100%;" readonly>
+                            </td>
+                            <td>
+                                <button class="button" id="upload" type="button" onclick="upload()" style="margin-left: 17px; margin-bottom: 3px">Загрузить</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border="0">
+                        <tr>
+                            <td style="width: 260px">
+                                <button class="button" id="doUpdate" type="button" onclick="doUpdate()" style="font-size: 18px">Прошить плату ESP32-CAM</button>
+                            </td>
+                            <td>
+                                (Это занимает около 60 секунд)
+                            </td>
+                        </tr>
+                    </table>		
+                </td>
+            </tr>
+        </table>
+
+        <h2>2. Обновить папку "html"</h2>
+        <table class="fixed" border="0">
+            <tr>
+                <td>
+                    <table border="0">
+                        <tr>
+                            <td style="width: 230px">
+                                <label>Выбрать zip архив с HTML страницами:</label>
+                            </td>
+                            <td colspan="2">
+                                <input class="inputFile" id="newfilehtml" type="file" onchange="setpathhtml()" style="width:100%;">
+                                <label for="newfilehtml"><span>Добавить Файл</span></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="filepathhtml">Путь на Micro SD карте:</label>
+                            </td>
+                            <td>
+                                <input id="filepathhtml" type="text" style="width:100%; font-family: monospace; font-weight: bold; font-size: 16px;" readonly>
+                            </td>
+                            <td>
+                                <button class="button" id="uploadhtml" type="button" onclick="uploadhtml()" style="margin-left: 17px; margin-bottom: 3px">Загрузить</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="button" id="doUpdatehtml" type="button" onclick="doUpdatehtml()" style="font-size: 18px">Обновить папку "html"</button>
+                </td>
+            </tr>
+        </table>
+        
+        <h2>3. Загрузить нейронную сеть (файл tfl/tflite)</h2>
+        <table class="fixed" border="0">
+            <tr>
+                <td>
+                    <table border="0">
+                        <tr>
+                            <td>
+                                <label>Выберите файл tfl/tflite</label>
+                            </td>
+                            <td colspan="2">
+                                <input class="inputFile" id="newfiletfl" type="file" onchange="setpathtfl()" style="width:100%;">
+                                <label for="newfiletfl"><span>Добавить Файл</span></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="filepathtfl">Путь на Micro SD карте:</label>
+                            </td>
+                            <td>
+                                <input id="filepathtfl" type="text" style="width:100%; font-family: monospace; font-weight: bold; font-size: 16px;" readonly>
+                            </td>
+                            <td>
+                                <button class="button" id="uploadtfl" type="button" onclick="uploadtfl()" disabled style="margin-left: 17px; margin-bottom: 3px">Загрузить</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <h2 style="font-size: 18px">Файл должен быть активирован в Config.ini.</h2>
+        </table>
+        
+        <h2>4. Перезагрузка</h2>
+        <table class="fixed" border="0">
+            <tr>
+                <td>
+                    <button class="button" id="reboot" type="button" onclick="doReboot()" style="font-size: 18px">Перезагрузить плату для активации обновлений</button>
+                </td>
+            </tr>
+        </table>
+
+        <script type="text/javascript" src="./gethost.js"></script> 
+
+        <script language="JavaScript">
+            function init(){
+                document.getElementById("reboot").disabled = true;
+                document.getElementById("upload").disabled = true;
+                document.getElementById("uploadhtml").disabled = true;    
+                document.getElementById("doUpdate").disabled = true;
+                document.getElementById("doUpdatehtml").disabled = true;
+                document.getElementById("uploadtfl").disabled = true;
+            }
+
+            function doUpdate() {
+                if (confirm("Вы точно хотите обновить прошивку?")) {
+                    var stringota = "/ota?file=firmware.bin";
+
+                    var xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200) {
+                                document.getElementById("reboot").disabled = false;
+                                alert("Прошивка успешно загружена. Для того, чтобы активировать изменения перезагрузите плату.");
+                                /* keine Reaktion, damit sich das Dokument nicht ändert */
+                            } else if (xhttp.status == 0) {
+                                alert("Сервер разорвал соединение!");
+                                UpdatePage();
+                            } else {
+                                alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                                UpdatePage();
+                            }
+                        }
+                    };
+                    xhttp.open("GET", stringota, true);
+                    xhttp.send();        
+                }
+            }
+
+            function doUpdatehtml() {
+                if (confirm("Вы точно хотите обновить обновить папку \"html\"?")) {
+                    var stringota = "/ota?task=unziphtml";
+
+                    var xhttp = new XMLHttpRequest();
+
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200) {
+                                document.getElementById("reboot").disabled = false;
+                                alert("Папка \"html\" обновлена!");
+                                /* keine Reaktion, damit sich das Dokument nicht ändert */
+                            } else if (xhttp.status == 0) {
+                                alert("Сервер разорвал соединение!");
+                                UpdatePage();
+                            } else {
+                                alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                                UpdatePage();
+                            }
+                        }
+                    };
+                    xhttp.open("GET", stringota, true);
+                    xhttp.send();
+                }
+            }
+
+            function doReboot() {
+                if (confirm("Вы точно хотите перезагрузить плату ESP32-CAM?")) {
+                    var stringota = "/reboot";
+                    window.location = stringota;
+                    window.location.href = stringota;
+                    window.location.assign(stringota);
+                    window.location.replace(stringota);
+                }
+            }
+
+            function setpath() {
+                var fileserverpraefix = "/firmware/firmware.bin";
+                document.getElementById("filepath").value = fileserverpraefix;
+                document.getElementById("upload").disabled = false;
+            }
+
+            function setpathhtml() {
+                var fileserverpraefix = "/firmware/html.zip";
+                document.getElementById("filepathhtml").value = fileserverpraefix;
+                document.getElementById("uploadhtml").disabled = false;
+            }
+
+
+            function setpathtfl() {
+                var nameneu = document.getElementById("newfiletfl").value;
+                nameneu = nameneu.split(/[\\\/]/).pop();
+                var fileserverpraefix = "/config/" + nameneu;
+                document.getElementById("filepathtfl").value = fileserverpraefix;
+                document.getElementById("uploadtfl").disabled = false;
+            }
+
+
+
+
+            function upload() {
+                var xhttp = new XMLHttpRequest();
+
+                /* first delete the old firmware */	
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4) {
+                        if (xhttp.status == 200) {
+                            /* keine Reaktion, damit sich das Dokument nicht ändert */
+                        } else if (xhttp.status == 0) {
+                            alert("Сервер разорвал соединение!");
+                            UpdatePage();
+                        } else {
+                            alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                            UpdatePage();
+                        }
+                    }
+                };
+                xhttp.open("GET", "/ota?delete=firmware.bin", false);
+                xhttp.send();
+                /* ----------------------------- */
+
+                var filePath = document.getElementById("filepath").value;
+                var upload_path = "/upload/" + filePath;
+                var fileInput = document.getElementById("newfile").files;
+
+                /* Max size of an individual file. Make sure this
+                 * value is same as that set in file_server.c */
+                var MAX_FILE_SIZE = 2000*1024;
+                var MAX_FILE_SIZE_STR = "2000KB";
+
+                if (fileInput.length == 0) {
+                    alert("Файл не выбран!");
+                } else if (filePath.length == 0) {
+                    alert("Путь к файлу не указан!");
+                } else if (filePath.indexOf(' ') >= 0) {
+                    alert("Путь к файлу не может содержать пробелов!");
+                } else if (filePath[filePath.length-1] == '/') {
+                    alert("Имя файла не указано после пути к нему!");
+                } else if (fileInput[0].size > 2000*1024) {
+                    alert("Размер файла должен быть меньше 2000 КБ!");
+                } else {
+                    document.getElementById("newfile").disabled = true;
+                    document.getElementById("filepath").disabled = true;
+                    document.getElementById("upload").disabled = true;
+
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200) {
+                                alert("Загрузка прошла успешно!");
+            //                    document.reload();
+                                document.getElementById("reboot").disabled = false;
+                                document.getElementById("doUpdate").disabled = false;
+                            } else if (xhttp.status == 0) {
+                                alert("Сервер разорвал соединение!");
+                                UpdatePage();
+                            } else {
+                                alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                                UpdatePage();
+                            }
+                        }
+                    };
+
+
+                    var file = fileInput[0];
+                    xhttp.open("POST", upload_path, true);
+                    xhttp.send(file);
+                }
+            }
+
+            function uploadhtml() {
+                var xhttp = new XMLHttpRequest();
+
+                /* first delete the old firmware */	
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4) {
+                        if (xhttp.status == 200) {
+                            /* keine Reaktion, damit sich das Dokument nicht ändert */
+                        } else if (xhttp.status == 0) {
+                            alert("Сервер разорвал соединение!");
+                            UpdatePage();
+                        } else {
+                            alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                            UpdatePage();
+                        }
+                    }
+                };
+                xhttp.open("GET", "/ota?delete=html.zip", false);
+                xhttp.send();
+                /* ----------------------------- */
+
+                var filePath = document.getElementById("filepathhtml").value;
+                var upload_path = "/upload/" + filePath;
+                var fileInput = document.getElementById("newfilehtml").files;
+
+                /* Max size of an individual file. Make sure this
+                 * value is same as that set in file_server.c */
+                var MAX_FILE_SIZE = 2000*1024;
+                var MAX_FILE_SIZE_STR = "2000KB";
+
+                if (fileInput.length == 0) {
+                    alert("Файл не выбран!");
+                } else if (filePath.length == 0) {
+                    alert("Путь к файлу не указан!");
+                } else if (filePath.indexOf(' ') >= 0) {
+                    alert("Путь к файлу не может содержать пробелов!");
+                } else if (filePath[filePath.length-1] == '/') {
+                    alert("Имя файла не указано после пути к нему!");
+                } else if (fileInput[0].size > 2000*1024) {
+                    alert("Размер файла должен быть меньше 2000 КБ!");
+                } else {
+                    document.getElementById("newfilehtml").disabled = true;
+                    document.getElementById("filepathhtml").disabled = true;
+                    document.getElementById("uploadhtml").disabled = true;
+
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200) {
+                                alert("Загрузка прошла успешно!");
+            //                    document.reload();
+                                document.getElementById("reboot").disabled = false;
+                                document.getElementById("doUpdatehtml").disabled = false;
+                            } else if (xhttp.status == 0) {
+                                alert("Сервер разорвал соединение!");
+                                UpdatePage();
+                            } else {
+                                alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                                UpdatePage();
+                            }
+                        }
+                    };
+
+
+                    var file = fileInput[0];
+                    xhttp.open("POST", upload_path, true);
+                    xhttp.send(file);
+                }
+            }
+
+
+            function uploadtfl() {
+                var xhttp = new XMLHttpRequest();
+
+                /* first delete the old firmware */	
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4) {
+                        if (xhttp.status == 200) {
+                            /* keine Reaktion, damit sich das Dokument nicht ändert */
+                        } else if (xhttp.status == 0) {
+                            alert("Сервер разорвал соединение!");
+                            UpdatePage();
+                        } else {
+                            alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                            UpdatePage();
+                        }
+                    }
+                };
+                /* ----------------------------- */
+
+                var filePath = document.getElementById("filepathtfl").value;
+                var upload_path = "/upload/" + filePath;
+                var fileInput = document.getElementById("newfiletfl").files;
+
+                /* Max size of an individual file. Make sure this
+                 * value is same as that set in file_server.c */
+                var MAX_FILE_SIZE = 2000*1024;
+                var MAX_FILE_SIZE_STR = "2000KB";
+
+                if (fileInput.length == 0) {
+                    alert("Файл не выбран!");
+                } else if (filePath.length == 0) {
+                    alert("Путь к файлу не указан!");
+                } else if (filePath.indexOf(' ') >= 0) {
+                    alert("Путь к файлу не может содержать пробелов!");
+                } else if (filePath[filePath.length-1] == '/') {
+                    alert("Имя файла не указано после пути к нему!");
+                } else if (fileInput[0].size > 2000*1024) {
+                    alert("Размер файла должен быть меньше 2000 КБ!");
+                } else {
+                    document.getElementById("newfiletfl").disabled = true;
+                    document.getElementById("filepathtfl").disabled = true;
+                    document.getElementById("uploadtfl").disabled = true;
+
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4) {
+                            if (xhttp.status == 200) {
+                                alert("Загрузка прошла успешно!");
+                                document.getElementById("newfiletfl").disabled = false;
+                                document.getElementById("filepathtfl").disabled = false;
+                            } else if (xhttp.status == 0) {
+                                alert("Сервер разорвал соединение!");
+                                UpdatePage();
+                            } else {
+                                alert(xhttp.status + " Ошибка!\n" + xhttp.responseText);
+                                UpdatePage();
+                            }
+                        }
+                    };
+
+
+                    var file = fileInput[0];
+                    xhttp.open("POST", upload_path, true);
+                    xhttp.send(file);
+                }
+            }
+
+            init();
+        </script>
+    </body>
+</html>

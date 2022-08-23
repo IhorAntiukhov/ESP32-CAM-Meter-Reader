@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html style="width: fit-content">
+    <head>
+        <link rel="icon" href="data:,">
+        <title>Завершено</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h1 {
+                font-size: 22px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+                margin-block-start: 0.0em;
+                margin-block-end: 0.2em;
+            }
+            p {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            .h_iframe iframe {
+                width:995px;
+                height:605px;
+            }
+            .h_iframe {
+                width:995px;
+                height:605px;
+            }
+            .button {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                font-size: 20px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button:focus {
+                transition: 0.15s;
+                border-color: #7F8C37;
+                color: #7F8C37;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Завершено!</h1>
+        <p>Первоначальная настройка считывания показаний счётчика завершена!
+            <br>Для перехода в нормальный режим работы <em style="color: #616B2A">нажмите на кнопку ниже</em>. Через 5 - 10 секунд после перезагрузки платы ESP32-CAM вы можете <em style="color: #616B2A">перезагрузить эту страницу</em>. Все настройки можно будет изменить в нормальном режиме.</p>
+
+        <p><button class="button" onclick="reboot()">Выйти из режима первоначальной настройки и перезагрузить плату</button></p>
+
+        <script type="text/javascript" src="./gethost.js"></script> 
+        <script type="text/javascript" src="./readconfigparam.js"></script> 
+        <script type="text/javascript" src="./readconfigcommon.js"></script> 
+
+        <script type="text/javascript">
+            var canvas = document.getElementById('canvas'),
+                basepath = "http://192.168.178.22"; 
+                aktstatu = 0;
+
+            function reboot() {
+                basepath = getbasepath(); 
+                    if (!loadConfig(basepath)) {
+                        alert("Не удалось выйти из режима первоначальной настройки! Пожалуйста, попробуйте ещё раз.");
+                        return;
+                    } 
+                    ParseConfig();	
+                    param = getConfigParameters();
+                    param["System"]["SetupMode"]["enabled"] = true;
+                    param["System"]["SetupMode"]["value1"] = "false";
+
+                    WriteConfigININew();
+                    SaveConfigToServer(basepath);    
+
+
+                    var stringota = "/reboot";
+                    window.location = stringota;
+                    window.location.href = stringota;
+                    window.location.assign(stringota);
+                    window.location.replace(stringota);
+            }
+        </script>
+    </body>
+</html>

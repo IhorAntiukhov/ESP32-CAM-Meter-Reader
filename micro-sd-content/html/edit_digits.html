@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:,">
+        <meta charset="utf-8"/>
+        <title>Цифровой Счётчик</title>
+        <style>
+            h1 {
+                font-size: 22px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+                margin-block-start: 0.0em;
+                margin-block-end: 0.2em;
+            }
+            class {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+                margin-right: 4px; 
+            }
+            input[type="text"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                padding-bottom: 2px;
+                padding-left: 4px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="text"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="text"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            input[type="number"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                width: 150px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="number"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="number"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            select {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                display: inline-block;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                padding: 2px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            select::-webkit-input-placeholder {
+                color: #7F8C37;
+            }
+            select:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            .button {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                font-size: 18px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button:focus {
+                transition: 0.15s;
+                border-color: #7F8C37;
+                color: #7F8C37;
+            }
+            th, td {
+                font-size: 16px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+        </style>
+    </head>
+    <body style="padding: 0px 10px;">
+        <CENTER>
+            <h1><input type="checkbox" id="Category_Digits_enabled" value="1"  onclick = 'EnDisableDigits()' checked>Распознавание цифрового счётчика</h1>
+            <div id="div1">
+                <table>
+                    <tr>
+                        <canvas id="canvas" crossorigin></canvas>
+                    </tr>
+                </table>
+                <p>
+                    <table>
+                        <tr>
+                            <class id="Numbers_text">Число:</class>
+                            <select id="Numbers_value1" onchange="numberChanged()">
+                                <option value="0" selected>По умолчанию</option>
+                                <option value="1">NT</option>
+                                <option value="2">HT</option>
+                            </select>
+                            <button class="button" type="submit" id="renameNumber" name="renameNumber" onclick="renameNumber()" style="margin-right: 6px; margin-left: 6px">Переименовать число</button>  
+                            <button class="button" type="submit" id="newNumber" name="newNumber" onclick="newNumber()" style="margin-right: 6px">Новое число</button>  
+                            <button class="button" type="submit" id="removeNumber" name="removeNumber" onclick="removeNumber()" style="margin-right: 6px">Удалить число</button>
+                        </tr>
+                    </table>
+                </p>
+
+                <table>
+                    <tr>
+                        <td><button class="button" type="submit" id= "newROI" name="newROI" onclick="newROI()">Новое ROI (после текущего)</button></td>	  
+                        <td><button class="button" type="submit" id= "deleteROI" name="deleteROI" onclick="deleteROI()" style="margin-left: 2px">Удалить ROI</button></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="index" name="index" onchange="ChangeSelection()" tabindex=1>
+                                <option value="0" selected>ROI 0</option>
+                                <option value="1" >ROI 1</option>
+                            </select>
+                        </td>
+                        <td>                
+                        <button class="button" type="submit" id="renameROI" name="renameROI" onclick="renameROI()" style="margin-left: 2px; margin-top: -1px">Переименовать</button>  
+                        <td>
+                            <button class="button" type="submit" id="moveNext" onclick="moveNext()">Переместить далее</button>
+                            <button class="button" type="submit" id="movePrevious" onclick="movePrevious()" style="margin-left: -3px;">Переместить назад</button>   
+                        </td>	
+                    </tr>
+                    <tr>
+                        <td><input type="number" name="refx" id="refx" step=1 onchange="valuemanualchanged()" placeholder="X координата" style="margin-top: -0px"></td>
+                        <td><input style="margin-left: 2px; margin-top: -2px" type="number" name="refdx" id="refdx" step=1 onchange="valuemanualchanged()" placeholder="Ширина по X"></td>
+                        <td rowspan="2"><label for="lockAR" style="margin-left: 2px">Заблокировать соотношение<br>сторон:</label><input type="checkbox" id="lockAR" name="lockAR" value="1" onclick="changelockAR()" checked tabindex=6></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" name="refy" id="refy" step=1 onchange="valuemanualchanged()" placeholder="Y координата"></td>
+                        <td><input style="margin-left: 2px; margin-top: -1px" type="number" name="refdy" id="refdy" step=1 onchange="valuemanualchanged()" placeholder="Высота по Y"></td>
+                    </tr>
+                </table>
+            </div>
+        
+            <table>
+                <tr>
+                    <td><button class="button" type="submit" id="saveroi" name="saveroi" onclick="SaveToConfig()" style="font-size: 20px; margin-top: -1px">Сохранить всё в Config.ini</button></td>
+                </tr>  
+            </table>
+
+            <script type="text/javascript" src="./gethost.js"></script> 
+            <script type="text/javascript" src="./readconfigcommon.js"></script>
+            <script type="text/javascript" src="./readconfigparam.js"></script>  
+
+            <script type="text/javascript" src="./jquery-3.6.0.min.js"></script>  
+
+            <script language="JavaScript">
+                var canvas = document.getElementById('canvas'),
+                                ctx = canvas.getContext('2d'),
+                                imageObj = new Image(),
+                                rect = {},
+                                drag = false,
+                                aktindex = 0,
+                                ROIInfo,
+                                enhanceCon = false;
+                                lockAR = true;
+                                basepath = "http://192.168.178.26";
+
+
+                function EnDisableDigits() {
+                        isEnabled = document.getElementById("Category_Digits_enabled").checked;
+
+                        $("#div2").attr("disabled", "disabled").off('click');
+                        var x1=$("#div2").hasClass("disabledDiv");
+
+                        if (isEnabled)
+                        {
+                            $("#div2").removeClass("disabledDiv");
+                        }
+                        else
+                        {
+                            $("#div2").addClass("disabledDiv");
+                        }
+
+                        sah1(document.getElementById("div1"), !isEnabled);
+                        if (isEnabled)
+                        {
+                            UpdateROIs();
+                        }
+                }
+
+                function sah1(el, _target) {
+                    try {
+                        el.disabled = _target;
+                    } catch (E) {}
+                    if (el.childNodes && el.childNodes.length > 0) {
+                        for (var x = 0; x < el.childNodes.length; x++) {
+                            sah1(el.childNodes[x], _target);
+                        }
+                    }
+                }
+
+
+                function onNameChange(){
+                    ROIInfo[aktindex]["name"] = document.getElementById("name").value;
+                    UpdateROIs();
+                }
+
+                function deleteROI(){
+                    ROIInfo.splice(aktindex, 1);
+                    if (aktindex > ROIInfo.length - 1){
+                        aktindex = ROIInfo.length - 1;
+                    }
+                    UpdateROIs();
+                }
+
+                function newROI() {
+                    var sel = document.getElementById("Numbers_value1");
+                    var _number= sel.options[sel.selectedIndex].text;
+                    sel = document.getElementById("index");
+                    var _roialt= sel.options[sel.selectedIndex].text;
+
+                    var _roinew = prompt("Введите название нового ROI", "name");
+
+                    if (ROIInfo.length > 0)
+                        erg = CreateROI(_number, "digit", sel.selectedIndex, _roinew, 1, 1, ROIInfo[aktindex]["dx"], ROIInfo[aktindex]["dy"]);
+                    else
+                        erg = CreateROI(_number, "digit", sel.selectedIndex, _roinew, 1, 1, 30, 51);
+
+                    if (erg != "")
+                        alert(erg);
+                    else
+                        UpdateROIs(_roinew);
+                }
+
+                function movePrevious(){
+                    var zw = ROIInfo[aktindex];
+                    ROIInfo[aktindex] = ROIInfo[aktindex-1];
+                    ROIInfo[aktindex-1] = zw;
+                    aktindex--;
+                    UpdateROIs();      
+                }
+
+                function moveNext(){
+                    var zw = ROIInfo[aktindex];
+                    ROIInfo[aktindex] = ROIInfo[aktindex+1];
+                    ROIInfo[aktindex+1] = zw;
+                    aktindex++;
+                    UpdateROIs();    
+                }
+
+                function changelockAR(){
+                    lockAR = document.getElementById("lockAR").checked;
+                }
+
+                function ChangeSelection(){
+                    aktindex = parseInt(document.getElementById("index").value);
+                //    lockAR = true;
+                    UpdateROIs();
+                }
+
+                function SaveToConfig(){
+                    _zwcat = getConfigCategory();
+                    _zwcat["Digits"]["enabled"] = document.getElementById("Category_Digits_enabled").checked;
+                    WriteConfigININew();
+                    SaveConfigToServer(basepath); 
+                    alert("Файл Config.ini обновлён!");
+                }
+
+
+                function UpdateROIs(_sel){
+                    document.getElementById("Category_Digits_enabled").checked = true;
+                    var sel = document.getElementById("Numbers_value1");
+                    var _number = sel.options[sel.selectedIndex].text;
+
+                    ROIInfo = getROIInfo("digit", _number);
+                    _catzw = getConfigCategory();
+
+                    if (_catzw["Digits"]["enabled"] == false) 
+                    {
+                        document.getElementById("Category_Digits_enabled").checked = false;
+                        EnDisableDigits();
+                        alert("Распознавание цифрового счётчика отключено!");
+                        return;
+                    }
+
+                    if (ROIInfo.length == 0){
+                        alert("Не определено ни одного ROI! Сначала создайте новое ROI.");
+                        document.getElementById("newROI").disabled = false;
+                        document.getElementById("deleteROI").disabled = true;
+                        document.getElementById("index").disabled = true;
+                        document.getElementById("saveroi").disabled = true;
+                        document.getElementById("renameROI").disabled = true;
+                        document.getElementById("moveNext").disabled = true;
+                        document.getElementById("movePrevious").disabled = true;
+                        return;
+                    }
+                    else
+                    {
+                        document.getElementById("newROI").disabled = false;
+                        document.getElementById("deleteROI").disabled = false;
+                        document.getElementById("renameROI").disabled = false;
+                        document.getElementById("index").disabled = false;
+                        document.getElementById("saveroi").disabled = false;
+                    }
+
+                    var _index = document.getElementById("index");
+                    while (_index.length){
+                        _index.remove(0);
+                    }
+
+                    if (aktindex > ROIInfo.length)
+                        aktindex = ROIInfo.length;
+
+                    for (var i = 0; i < ROIInfo.length; ++i){
+                        var option = document.createElement("option");
+                        option.text = ROIInfo[i]["name"];
+                        option.value = i;
+                        _index.add(option);
+                        if (typeof _sel !== 'undefined') {
+                            if (option.text == _sel)
+                                aktindex = i;
+                        }
+                    }
+                    _index.selectedIndex = aktindex; 
+
+
+                    document.getElementById("movePrevious").disabled = false;
+                    if (aktindex == 0){
+                        document.getElementById("movePrevious").disabled = true;
+                    }
+
+                    document.getElementById("moveNext").disabled = false;
+                    if (aktindex == (ROIInfo.length-1)){
+                        document.getElementById("moveNext").disabled = true;
+                    }  
+
+                    document.getElementById("lockAR").checked = lockAR;
+
+                    document.getElementById("refx").value = ROIInfo[aktindex]["x"];
+                    document.getElementById("refy").value = ROIInfo[aktindex]["y"];  
+                    document.getElementById("refdx").value = ROIInfo[aktindex]["dx"];  
+                    document.getElementById("refdy").value = ROIInfo[aktindex]["dy"];  
+                    rect.startX = ROIInfo[aktindex]["x"];
+                    rect.startY = ROIInfo[aktindex]["y"];
+                    rect.w = ROIInfo[aktindex]["dx"];
+                    rect.h = ROIInfo[aktindex]["dy"];
+                    draw();      
+                }
+
+                function loadCanvas(dataURL) {
+                    var canvas = document.getElementById('canvas');
+                    var context = canvas.getContext('2d');
+
+                    imageObj.onload = function() {
+                        canvas.width = this.width;
+                        canvas.height = this.height;
+                        drawImage();
+                        draw();
+                    };
+
+                    imageObj.src = dataURL;
+                }
+
+
+                function getCoords(elem) { // crossbrowser version
+                    var box = elem.getBoundingClientRect();
+                    var body = document.body;
+                    var docEl = document.documentElement;
+                    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+                    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+                    var clientTop = docEl.clientTop || body.clientTop || 0;
+                    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+                    var top  = box.top +  scrollTop - clientTop;
+                    var left = box.left + scrollLeft - clientLeft;
+                    return { top: Math.round(top), left: Math.round(left) };
+                }
+
+                function init() {
+                    basepath = getbasepath();
+                    canvas.addEventListener('mousedown', mouseDown, false);
+                    canvas.addEventListener('mouseup', mouseUp, false);
+                    canvas.addEventListener('mousemove', mouseMove, false);
+                    loadCanvas(basepath + "/fileserver/config/reference.jpg");
+                    loadConfig(basepath); 
+                    ParseConfig();
+                    param = getConfigParameters(); 
+                    UpdateNUMBERS();
+                    drawImage();
+                    draw();
+                }
+
+                function drawImage(){
+                    var canvas = document.getElementById('canvas');
+                    var context = canvas.getContext('2d');
+
+                    context.clearRect(0,0,imageObj.width,imageObj.height);
+                    context.save();
+                    context.drawImage(imageObj, 0, 0);
+                }  
+
+                function UpdateNUMBERS(_sel){
+                    zw = getNUMBERInfo();
+
+                    index = 0;
+
+                    var _index = document.getElementById("Numbers_value1");
+                    while (_index.length){
+                        _index.remove(0);
+                    }
+
+                    for (var i = 0; i < zw.length; ++i){
+                        var option = document.createElement("option");
+                        option.text = zw[i]["name"];
+                        option.value = i;
+                        _index.add(option); 
+
+                        if (typeof _sel !== 'undefined') {
+                            if (zw[i]["name"] == _sel)
+                                index = i
+                        }
+                    }
+                    _index.selectedIndex = index;
+
+                    UpdateROIs();
+                }
+
+                function renameNumber(){
+                    var sel = document.getElementById("Numbers_value1");
+                    var _delte= sel.options[sel.selectedIndex].text;
+                    var _numbernew = prompt("Введите новое название!", _delte);
+
+                    erg = RenameNUMBER(_delte, _numbernew);
+                    if (erg != "")
+                        alert(erg);
+                    else
+                        UpdateNUMBERS(_numbernew);
+                }
+
+                function newNumber(){
+                    var _numbernew = prompt("Введите название нового числа!", "name");
+
+                    erg = CreateNUMBER(_numbernew);
+                    if (erg != "")
+                        alert(erg);
+                    else
+                        UpdateNUMBERS(_numbernew);
+                }
+
+
+                function removeNumber(){
+                    if (confirm("Вы точно хотите удалить все ROI (аналоговые и цифровые)?\nЕсли вы хотите удалить ROI только для цифрового счётчика, используйте \"Удалить ROI\"")) {
+                        var sel = document.getElementById("Numbers_value1");
+                        var _delte= sel.options[sel.selectedIndex].text;
+                        erg = DeleteNUMBER(_delte);
+                        if (erg != "")
+                            alert(erg);
+                        UpdateNUMBERS();
+                    }	    
+                }
+
+
+                function draw() {
+                    var canvas = document.getElementById('canvas');
+                    var context = canvas.getContext('2d');
+                    context.drawImage(imageObj, 0, 0);
+                    if (document.getElementById("Category_Digits_enabled").checked)
+                    {
+                        var sel = document.getElementById("index");
+                        var _number = sel.selectedIndex;
+                        for (var _nb = 0; _nb < ROIInfo.length; _nb++)
+                        {
+                            if (_nb != _number)
+                            {
+                                lw = 2;
+                                context.lineWidth = lw;
+                                context.strokeStyle = "#990000";
+                                var x0 = parseInt(ROIInfo[_nb].x) - parseInt(lw/2);
+                                var y0 = parseInt(ROIInfo[_nb].y) - parseInt(lw/2);
+                                var dx = parseInt(ROIInfo[_nb].dx) + parseInt(lw);
+                                var dy = parseInt(ROIInfo[_nb].dy) + parseInt(lw);
+                                context.strokeRect(x0, y0, dx, dy);
+                            }
+
+                        }
+
+                        lw = 4
+                        context.lineWidth = lw;
+                        context.strokeStyle = "#FF0000";
+                        var x0 = parseInt(rect.startX) - parseInt(lw/2);
+                        var y0 = parseInt(rect.startY) - parseInt(lw/2);
+                        var dx = parseInt(rect.w) + parseInt(lw);
+                        var dy = parseInt(rect.h) + parseInt(lw);
+                        context.strokeRect(x0, y0, dx, dy);
+                        context.lineWidth = 1;
+                        context.strokeRect(x0+dx*0.2, y0+dy*0.2, dx*0.6, dy*0.6);
+
+                        context.lineWidth = 2;
+                        context.beginPath();
+                        context.moveTo(x0, y0+dy/2);
+                        context.lineTo(x0+dx, y0+dy/2);
+                        context.stroke();   
+
+                        ROIInfo[aktindex]["x"] = rect.startX;       
+                        ROIInfo[aktindex]["y"] = rect.startY;       
+                        ROIInfo[aktindex]["dx"] = rect.w;       
+                        ROIInfo[aktindex]["dy"] = rect.h;       
+                    }
+                }
+
+                function getCoords(elem) { // crossbrowser version
+                    var box = elem.getBoundingClientRect();
+                    var body = document.body;
+                    var docEl = document.documentElement;
+                    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+                    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+                    var clientTop = docEl.clientTop || body.clientTop || 0;
+                    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+                    var top  = box.top +  scrollTop - clientTop;
+                    var left = box.left + scrollLeft - clientLeft;
+                    return { top: Math.round(top), left: Math.round(left) };
+                }
+
+                function mouseDown(e) {
+                    zw = getCoords(this)
+                    rect.startX = e.pageX - zw.left;
+                    rect.startY = e.pageY - zw.top;
+                    document.getElementById("refx").value =  rect.startX;
+                    document.getElementById("refy").value =  rect.startY;    
+                    drag = true;
+                }
+
+                function mouseUp() {
+                    drag = false;
+                    if (rect.w < 0) {
+                        rect.w = -rect.w
+                        rect.startX-=rect.w
+                    }
+                    if (rect.h < 0) {
+                        rect.h = -rect.h
+                        rect.startY-=rect.h
+                        }
+                    document.getElementById("refdx").value = rect.w;
+                    document.getElementById("refdy").value = rect.h;
+                    document.getElementById("refx").value = rect.startX;
+                    document.getElementById("refy").value = rect.startY;    
+                }
+
+                function mouseMove(e) {
+                    if (drag) {
+                        zw = getCoords(this)        
+
+
+                        if (lockAR) {
+                            rect.h = (e.pageY - zw.top) - rect.startY;
+                            rect.w = Math.round(rect.h * ROIInfo[aktindex]["ar"]);            }
+                        else {
+                            rect.w = (e.pageX - zw.left) - rect.startX;
+                            rect.h = (e.pageY - zw.top) - rect.startY;
+                        }
+                        document.getElementById("refdx").value = rect.w;
+                        document.getElementById("refdy").value = rect.h;
+                        draw();
+                    }
+                    else {
+                        draw();
+                        var canvas = document.getElementById('canvas');
+                        var context = canvas.getContext('2d');
+
+                        zw = getCoords(this);
+                        x = e.pageX - zw.left;
+                        y = e.pageY - zw.top;
+
+                        context.lineWidth = 2;
+                        context.strokeStyle = "#00FF00";
+                        context.beginPath(); 
+                        context.moveTo(0,y);
+                        context.lineTo(canvas.width, y);
+                        context.moveTo(x, 0);
+                        context.lineTo(x, canvas.height);
+                        context.stroke();            
+                    }
+                }
+
+                function valuemanualchanged(){
+                    if (!drag) {
+                        rect.w = document.getElementById("refdx").value;
+                        rect.h = document.getElementById("refdy").value;
+                        if (lockAR) {
+                            rect.w = Math.round(rect.h * ROIInfo[aktindex]["ar"]);
+                            document.getElementById("refdx").value = rect.w;
+                        }
+
+                        rect.startX = document.getElementById("refx").value;
+                        rect.startY = document.getElementById("refy").value; 
+                        draw();            
+                    }
+                }
+
+                function valuemanualchangeddx(){
+                    if (!drag) {
+                        rect.w = document.getElementById("refdx").value;
+                        rect.h = document.getElementById("refdy").value;
+                        if (lockAR) {
+                            rect.h = Math.round(rect.w / ROIInfo[aktindex]["ar"]);
+                            document.getElementById("refdy").value = rect.h;
+                        }
+
+                        rect.startX = document.getElementById("refx").value;
+                        rect.startY = document.getElementById("refy").value; 
+                        draw();            
+                    }
+                }
+
+                function renameROI(){
+                    var sel = document.getElementById("Numbers_value1");
+                    var _number= sel.options[sel.selectedIndex].text;
+                    sel = document.getElementById("index");
+                    var _roialt= sel.options[sel.selectedIndex].text;
+
+
+                    var _roinew = prompt("Введите новое название!", _roialt);
+
+                    erg = RenameROI(_number, "digit", _roialt, _roinew);
+                    if (erg != "")
+                        alert(erg);
+                    else
+                        UpdateROIs(_roinew);
+                }
+
+                function numberChanged()
+                {
+                    UpdateROIs();
+                }    
+
+                init();
+            </script>
+        </CENTER>
+    </body>
+</html>

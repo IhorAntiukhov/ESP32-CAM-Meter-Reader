@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html style="width: fit-content">
+    <head>
+        <link rel="icon" href="data:,">
+        <title>Приветственное Окно</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h1 {
+                font-size: 22px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+                margin-block-start: 0.0em;
+                margin-block-end: 0.2em;
+            }
+            p {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            li {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            .h_iframe iframe {
+                width:995px;
+                height:605px;
+            }
+            .h_iframe {
+                width:995px;
+                height:605px;
+            }
+        </style>
+    </head>
+    <body style="font-family: monospace">
+        <h1>Вас приветствует первоначальное окно настройки считывания показаний счётчика на ESP32-CAM!</h1>
+        
+        <p><img src="flow_overview.jpg" alt=""><img src="cnn_images.jpg" alt=""></p>
+
+        <p>После установки прошивки вам нужно <em style="color: #616B2A">настроить работу</em> вашей платы ESP32-CAM. Процесс настройки состоит из <em style="color: #616B2A">5 этапов</em>. На последнем этапе первоначальная настройка будет отключена и при перезагрузке плата ESP32-CAM <em style="color: #616B2A">запустится в нормальном режиме</em>.</p>
+        <br>
+        <p>Вы можете перемещаться между этапами настройки при помощи кнопок <em style="color: #616B2A">"Назад"</em> и <em style="color: #616B2A">"Далее"</em>. Не забывайте при переходе на следующий этап сохранять все изменения при помощи кнопки <em style="color: #616B2A">"Сохранить всё в Config.ini"</em>.</p>
+        <br>
+        
+        <p>Это краткое описание всех 5 этапов:</p>    
+
+        <p>
+        <ol>
+            <li><em style="color: #616B2A">Создание эталонного изображения</em><br>
+                Создание и настройка фотографии вашего счётчика, которая будет использоваться как база на следующих этапах.</li>
+            <li><em style="color: #616B2A">Определение двух элементов выравнивания</em><br>
+                Это нужно для выравнивания фотографий платы ESP32-CAM и определения абсолютной позиции.</li>
+            <li><em style="color: #616B2A">Определение отдельных цифр на фотографии</em><br>
+                Это нужно для определения областей интереса (ROI) в которых находятся цифры, которые следует распознать.</li>
+            <li><em style="color: #616B2A">Определение аналоговых счётчиков на                 фотографии</em><br>
+                Это нужно для определения областей интереса (ROI) в которых находятся аналоговые счётчики, показания с которых следует распознать.</li>
+            <li><em style="color: #616B2A">Глобальные настройки</em><br>
+                Здесь в большинстве настроек можно оставить значения по умолчанию. Нужно указать только почту и пароль вашего пользователя в моём приложении.</li>
+        </ol>
+        <p>
+        <p><em style="color: #616B2A">Приятного использования!</em></p>
+    </body>
+</html>

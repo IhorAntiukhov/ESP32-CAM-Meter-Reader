@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:,">
+        <title>Настроить Выравнивание</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h1 {
+                font-size: 22px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+                margin-block-start: 0.0em;
+                margin-block-end: 0.2em;
+            }
+            td {
+                font-size: 16px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            input[type="text"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                padding-bottom: 2px;
+                padding-left: 4px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="text"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="text"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            input[type="number"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                width: 150px;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="number"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="number"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            select {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                display: inline-block;
+                font-size: 16px;
+                font-family: monospace;
+                font-weight: bold;
+                padding: 2px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            select::-webkit-input-placeholder {
+                color: #7F8C37;
+            }
+            select:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            .button {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                font-size: 18px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button:focus {
+                transition: 0.15s;
+                border-color: #7F8C37;
+                color: #7F8C37;
+            }
+        </style>		
+    </head>
+    <body style="padding: 0px 10px;">
+        <CENTER>
+            <h1>Выделите элементы выравнивания на эталонном изображении</h1>
+            <table>      
+                <tr>
+                    <td><canvas id="canvas" crossorigin></canvas></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td class="td">Выберете элемент выравнивания: 
+                        <select id="index" name="reference" onchange="ChangeSelection()">
+                            <option value="0" selected>Первый элемент</option>
+                            <option value="1">Второй элемент</option>
+                        </select>
+                    </td>
+                    <td colspan="2"> <input style="margin-left: 2px; padding-top: 3px; padding-bottom: 3px; padding-left: 6px; padding-right: 6px;" type="text" name="name" id="name" onchange="namechanged()" placeholder="Путь в хранилище"></td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="refx" id="refx" step=1 onchange="valuemanualchanged()" placeholder="X координата"></td>
+                    <td><input style="margin-left: 2px" type="number" name="refdx" id="refdx" step=1 onchange="valuemanualchanged()" placeholder="Ширина по X"></td>
+                    <td rowspan="2"><input style="margin-left: 2px" class="button" type="button" value="Обновить элемент" onclick="CutOutReference()"></td>	
+                </tr>
+                <tr>
+                    <td><input type="number" name="refy" id="refy" step=1 onchange="valuemanualchanged()" placeholder="Y координата"></td>
+                    <td><input style="margin-left: 2px" type="number" name="refdy" id="refdy" step=1 onchange="valuemanualchanged()" placeholder="Высота по Y"></td>
+                </tr>
+                <tr>
+                    <td>Оригинальное изображение: </td>
+                    <td style="margin-left: 5px">Окончательное изображение: </td>
+                    <td rowspan="2"><button class="button" type="button" id="enhancecontrast" onclick="EnhanceContrast()" style="margin-left: 2px">Повысить контраст</button></td>	
+                </tr> 
+                <tr>
+                    <td><img id="img_ref_org" src = "/img_tmp/ref_zw_org.jpg"></td>
+                    <td><img id="img_ref" src = "/img_tmp/ref_zw.jpg"></td>
+                </tr>   
+            </table>
+
+            <table>
+                <tr>
+                    <td colspan="2"><button class="button" type="submit" name="saveroi" onclick="SaveToConfig()" style="font-size: 20px">Сохранить всё в Config.ini</button></td>
+                </tr>  
+            </table>
+
+            <script type="text/javascript" src="./gethost.js"></script> 
+            <script type="text/javascript" src="./readconfigcommon.js"></script>
+            <script type="text/javascript" src="./readconfigparam.js"></script>  
+
+            <script language="JavaScript">
+                var canvas = document.getElementById('canvas'),
+                    ctx = canvas.getContext('2d'),
+                    imageObj = new Image(),
+                    rect = {},
+                    drag = false,
+                    aktindex = 0,
+                    refInfo,
+                    enhanceCon = false,
+                    param;
+                    basepath = "http://192.168.178.26";
+                    basepath = "",
+                    param;
+
+                function ChangeSelection(){
+                    aktindex = parseInt(document.getElementById("index").value);
+                    UpdateReference();
+                }
+
+                function SaveToConfig(){
+                    WriteConfigININew();
+                    UpdateConfigReference(basepath)
+                    SaveConfigToServer(basepath);
+                    alert("Файл Config.ini обновлён!");
+                }
+
+                function EnhanceContrast(){
+                    refInfo[aktindex]["name"] = document.getElementById("name").value;
+                    refInfo[aktindex]["x"] = document.getElementById("refx").value;
+                    refInfo[aktindex]["y"] = document.getElementById("refy").value; 
+                    refInfo[aktindex]["dx"] = document.getElementById("refdx").value;
+                    refInfo[aktindex]["dy"] = document.getElementById("refdy").value;       
+
+                    enhanceCon = true;
+                    MakeContrastImageZW(refInfo[aktindex], enhanceCon, basepath);
+                    UpdateReference();
+                }
+
+                function UpdateReference(){
+                    document.getElementById("img_ref").onload = function () {
+                        document.getElementById("refdx").value = this.width;
+                        document.getElementById("refdy").value = this.height;   
+                        refInfo[aktindex]["dx"] = this.width;
+                        refInfo[aktindex]["dy"] = this.height;
+                        rect.w = document.getElementById("refdx").value;
+                        rect.h = document.getElementById("refdy").value;
+                        draw();
+                    }
+
+                    _filenameurl = refInfo[aktindex]["name"].replace("/config/", "/img_tmp/");
+
+                    var url = basepath + "/fileserver" + _filenameurl + "?"  + Date.now();
+                    document.getElementById("img_ref").src = url;
+
+                    _filenameurl = _filenameurl.replace(".jpg", "_org.jpg");
+                    var url = basepath + "/fileserver" + _filenameurl +  "?" + Date.now();
+                    document.getElementById("img_ref_org").src = url;
+
+                    document.getElementById("name").value = refInfo[aktindex]["name"];
+                    document.getElementById("refx").value = refInfo[aktindex]["x"];
+                    document.getElementById("refy").value = refInfo[aktindex]["y"];  
+                    rect.startX = document.getElementById("refx").value;
+                    rect.startY = document.getElementById("refy").value; 
+                    document.getElementById("enhancecontrast").disabled = true;
+                    draw();      
+                }
+
+                function dataURLtoBlob(dataurl) {
+                    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                    while(n--){
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    return new Blob([u8arr], {type:mime});
+                }			
+
+
+                function loadCanvas(dataURL) {
+                    var canvas = document.getElementById('canvas');
+                    var context = canvas.getContext('2d');
+
+                    imageObj.onload = function() {
+                        canvas.width = this.width;
+                        canvas.height = this.height;
+                        drawImage();
+                    };
+
+                    imageObj.src = dataURL;
+                }
+
+
+                function getCoords(elem) {
+                    var box = elem.getBoundingClientRect();
+                    var body = document.body;
+                    var docEl = document.documentElement;
+                    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+                    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+                    var clientTop = docEl.clientTop || body.clientTop || 0;
+                    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+                    var top  = box.top +  scrollTop - clientTop;
+                    var left = box.left + scrollLeft - clientLeft;
+                    return { top: Math.round(top), left: Math.round(left) };
+                }
+
+
+                function init() { 
+                    basepath = getbasepath();
+                    loadConfig(basepath); 
+                    ParseConfig();
+                    param = getConfigParameters();
+
+                    canvas.addEventListener('mousedown', mouseDown, false);
+                    canvas.addEventListener('mouseup', mouseUp, false);
+                    canvas.addEventListener('mousemove', mouseMove, false);
+                    loadCanvas(basepath + "/fileserver/config/reference.jpg");
+
+                    CopyReferenceToImgTmp(basepath);
+                    refInfo = GetReferencesInfo();
+
+                    UpdateReference();
+
+                    drawImage();
+                }
+                
+                
+                function drawImage(){
+                    var canvas = document.getElementById('canvas');
+                    var context = canvas.getContext('2d');
+
+                    context.clearRect(0,0,imageObj.width,imageObj.height);
+                    context.save();
+                    context.drawImage(imageObj, 0, 0);
+                }  
+
+
+                function CutOutReference(){
+                    refInfo[aktindex]["x"] = document.getElementById("refx").value;
+                    refInfo[aktindex]["y"] = document.getElementById("refy").value; 
+                    refInfo[aktindex]["dx"] = document.getElementById("refdx").value;
+                    refInfo[aktindex]["dy"] = document.getElementById("refdy").value;   
+                    MakeRefZW(refInfo[aktindex], basepath); 
+                    UpdateReference();
+                    document.getElementById("enhancecontrast").disabled = false;
+                }
+
+                function drawGrid(){
+                    var canvas = document.getElementById('canvas');
+                    var ctx = canvas.getContext('2d');
+                    w = canvas.width;
+                    h = canvas.height;
+                    ctx.save();
+                    ctx.strokeStyle = '#00FF00';
+
+                    for (i = h/2; i < h; i += 100) {
+                        ctx.moveTo(0, i);
+                        ctx.lineTo(w, i);
+                        ctx.stroke();
+                        ctx.moveTo(0, h-i);
+                        ctx.lineTo(w, h-i);
+                        ctx.stroke();
+                    }
+                    for (i = w/2; i < w; i += 100) {
+                        ctx.moveTo(i, 0);
+                        ctx.lineTo(i, h);
+                        ctx.stroke();
+                        ctx.moveTo(w-i, 0);
+                        ctx.lineTo(w-i, h);
+                        ctx.stroke();                
+                    }
+                }
+
+                function draw() {
+                    var canvas = document.getElementById('canvas');
+                    var context = canvas.getContext('2d');
+                    context.drawImage(imageObj, 0, 0);
+                    lw = 4
+                    context.lineWidth = lw;
+                    context.strokeStyle = "#FF0000";
+                    var x0 = parseInt(rect.startX) - parseInt(lw/2);
+                    var y0 = parseInt(rect.startY) - parseInt(lw/2);
+                    var dx = parseInt(rect.w) + parseInt(lw);
+                    var dy = parseInt(rect.h) + parseInt(lw);
+                    context.strokeRect(x0, y0, dx, dy);           
+                }
+                
+
+                function getCoords(elem) { // crossbrowser version
+                    var box = elem.getBoundingClientRect();
+                    var body = document.body;
+                    var docEl = document.documentElement;
+                    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+                    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+                    var clientTop = docEl.clientTop || body.clientTop || 0;
+                    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+                    var top  = box.top +  scrollTop - clientTop;
+                    var left = box.left + scrollLeft - clientLeft;
+                    return { top: Math.round(top), left: Math.round(left) };
+                }
+
+                function mouseDown(e) {
+                    zw = getCoords(this)
+                    rect.startX = e.pageX - zw.left;
+                    rect.startY = e.pageY - zw.top;
+                    document.getElementById("refx").value =  rect.startX;
+                    document.getElementById("refy").value =  rect.startY;    
+                    drag = true;
+                }
+
+                function mouseUp() {
+                    drag = false;
+                    if (rect.w < 0) {
+                        rect.w = -rect.w
+                        rect.startX-=rect.w
+                        }
+                    if (rect.h < 0) {
+                        rect.h = -rect.h
+                        rect.startY-=rect.h
+                        }
+                    document.getElementById("refdx").value = rect.w;
+                    document.getElementById("refdy").value = rect.h;
+                    document.getElementById("refx").value = rect.startX;
+                    document.getElementById("refy").value = rect.startY;    
+                }
+
+                function mouseMove(e) {
+                    if (drag) {
+                        zw = getCoords(this)        
+                        rect.w = (e.pageX - zw.left) - rect.startX;
+                        rect.h = (e.pageY - zw.top) - rect.startY ;
+                        document.getElementById("refdx").value = rect.w;
+                        document.getElementById("refdy").value = rect.h;
+                        draw();
+                    }
+                    else {
+                        draw();
+                        var canvas = document.getElementById('canvas');
+                        var context = canvas.getContext('2d');
+
+                        zw = getCoords(this);
+                        x = e.pageX - zw.left;
+                        y = e.pageY - zw.top;
+
+                        context.lineWidth = 2;
+                        context.strokeStyle = "#00FF00";
+                        context.beginPath(); 
+                        context.moveTo(0,y);
+                        context.lineTo(canvas.width, y);
+                        context.moveTo(x, 0);
+                        context.lineTo(x, canvas.height);
+                        context.stroke();            
+                    }
+                }
+
+                function namechanged() {
+                    _name = document.getElementById("name").value;
+                    refInfo[aktindex]["name"] = _name;
+                }
+
+                function valuemanualchanged(){
+                    if (!drag) {
+                        rect.w = document.getElementById("refdx").value;
+                        rect.h = document.getElementById("refdy").value;
+                        rect.startX = document.getElementById("refx").value;
+                        rect.startY = document.getElementById("refy").value; 
+                        draw();            
+                    }
+                }
+
+                init();
+            </script>
+        </CENTER>
+    </body>
+</html>

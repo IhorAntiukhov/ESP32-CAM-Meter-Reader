@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:,">
+        <title>Установить Предварительное Значение</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            h1 {
+                font-size: 22px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            h2 {
+                font-size: 20px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            td {
+                font-size: 18px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            class {
+                font-size: 18px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            p {
+                font-size: 18px;
+                font-weight: bold;
+                font-family: monospace;
+                color: #7F8C37;
+            }
+            div {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                font-size: 18px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                width: 250px;
+            }
+            input[type="number"] {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                width: 150px;
+                font-size: 18px;
+                font-family: monospace;
+                font-weight: bold;
+                margin-top: 2px;
+                padding-bottom: 2px;
+                padding-left: 5px;
+                padding-right: 4px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            input[type="number"]::-webkit-input-placeholder {
+                color: #7F8C37;   
+            }
+            input[type="number"]:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            select {
+                border-color: #7F8C37;
+                border-width: 3px;
+                border-style: solid;
+                border-radius: 8px;
+                display: inline-block;
+                font-size: 18px;
+                font-family: monospace;
+                font-weight: bold;
+                padding: 2px;
+                color: #7F8C37;
+                transition: 0.5s;
+                opacity: 1;
+            }
+            select::-webkit-input-placeholder {
+                color: #7F8C37;
+            }
+            select:focus, input:focus {
+                border-color: #616B2A;
+                outline: none;
+            }
+            .button {
+                background-color: transparent;
+                border-color: #7F8C37;
+                border-style: solid;
+                border-width: 3px;
+                border-radius: 8px;
+                margin-top: 5px;
+                font-size: 18px;
+                font-family: monospace;
+                font-weight: bold;
+                opacity: 1;
+                transition: 0.5s;
+                color: #7F8C37;
+            }
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+                border-color: #616B2A;
+                color: #616B2A;
+            }
+            .button:focus {
+                transition: 0.15s;
+                border-color: #7F8C37;
+                color: #7F8C37;
+                outline: none;
+            }
+        </style>
+    </head>
+
+    <body style="padding: 0px 10px;">
+        <h1>Установите предыдущее значение для проверки согласованности и замены для NaN</h1>
+
+        <class id="Numbers_text"><b>Выберите число: </b>
+            <select id="Numbers_value1" onchange="numberChanged()">
+                <option value="0" selected>По умолчанию</option>
+                <option value="1" >NT</option>
+                <option value="2" >HT</option>
+            </select>
+        </class>
+
+        <table style="width:100%">
+            <tr>
+                <h2>Текущее значение:</h2><p>
+                <div id="prevalue" style="display: none"></div>
+                <h2>Установить значение:</h2>
+                <p>Ввод (Формат = 123.456):<p>
+                <p>Предварительное значение:</p> 
+                <input type="number" id="myInput" name="myInput" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" title="Это должно быть число до 4 знаков после запятой.">
+                <p></p>
+                <button class="button" type="button" onclick="setprevalue()">Установить предварительное значение</button>
+            </tr>	
+            <tr>
+                <h2>Результат:</h2><p>
+                <div id="result" readonly style="display: none"></div>
+            </tr>	 
+        </table>
+        
+        <script type="text/javascript" src="./gethost.js"></script> 
+        <script type="text/javascript" src="./readconfigcommon.js"></script>  
+        <script type="text/javascript" src="./readconfigparam.js"></script>  
+
+        <script type="text/javascript">
+            
+            var basepath = "http://192.168.178.22"; 
+            var	NUMBERS;
+
+            function setprevalue() {
+                var inputVal = document.getElementById("myInput").value;
+                var sel = document.getElementById("Numbers_value1");
+                var _number = sel.options[sel.selectedIndex].text;  
+                inputVal = inputVal.replace(",", ".");
+                var xhttp = new XMLHttpRequest();
+                try {
+                    
+                    url = basepath + "/setPreValue.html?value=" + inputVal + "&numbers=" + _number;     
+                    xhttp.open("GET", url, false);
+                    xhttp.send();
+                    response = xhttp.responseText;
+                    document.getElementById("result").style.display = "block";
+                    document.getElementById("result").innerHTML = response;
+                 }
+                 catch (error)
+                 {
+                    alert("Не удалось удалить файл Config.ini!");
+                 }
+            }
+
+            function loadPrevalue(_basepath) {
+                var sel = document.getElementById("Numbers_value1");
+                var _number = sel.options[sel.selectedIndex].text;  
+
+                 var xhttp = new XMLHttpRequest();
+                 try {
+                     url = _basepath + '/setPreValue.html?numbers=' + _number;     
+                     xhttp.open("GET", url, false);
+                     xhttp.send();
+                     response = xhttp.responseText;
+                     document.getElementById("prevalue").style.display = "block";
+                     document.getElementById("prevalue").innerHTML = response;
+                 }
+                 catch (error)
+                 {
+                    alert("Не удалось удалить файл Config.ini!");
+                 }
+                 return true;
+            }
+
+            function numberChanged(){
+              loadPrevalue(basepath);
+            }
+
+            function UpdateNUMBERS(_sel){
+                zw = getNUMBERInfo();
+
+                index = 0;
+
+                var _index = document.getElementById("Numbers_value1");
+                while (_index.length){
+                    _index.remove(0);
+                }
+
+                for (var i = 0; i < zw.length; ++i){
+                    var option = document.createElement("option");
+                    option.text = zw[i]["name"];
+                    option.value = i;
+                    _index.add(option); 
+
+                    if (typeof _sel !== 'undefined') {
+                        if (zw[i]["name"] == _sel)
+                            index = i
+                    }
+                }
+                _index.selectedIndex = index;
+
+                loadPrevalue(basepath);
+            }
+
+
+            function init() {
+                basepath = getbasepath();
+                loadConfig(basepath); 
+                ParseConfig();
+                UpdateNUMBERS();
+                loadPrevalue(basepath);
+            }
+
+            init();
+        </script>
+    </body>
+</html>
