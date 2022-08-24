@@ -2,7 +2,7 @@
 
 With this project, you can see the current reading of your *water, gas, or electricity meter* from my *app*. From it you can also see the previous readings of the meter on the *chart*. I made my project based on [AI-on-the-edge-device](https://github.com/jomjol/AI-on-the-edge-device). I made it so that the meter readings are *not sent to the MQTT server*, but are stored in the *Firebase* Realtime Database. Besides, I improved the HTML pages for the Web server and made them prettier. **Below is my video about this project on YouTube**.
 
-[![Video about my project on YouTube](https://lh3.googleusercontent.com/nwrAYKMtt5SMmqmqUAmS_DhlHqqGTEFAs_UibonIELzr3NeiWQ1E7EY6HjzHeqUy7sI9YPU0e0pdffb3MuFENdCgZUFkHnR8AF67k4QC6skX52Se7w9lB4NMf_MZl9AMrTWaNWWWbP6WDu0jks2OftvAACaI4o2fkjLdP-SZ6LY4i3pLpLvEwGAfLK6VIkFb4I4xspLZcqgSUSmM-0k5De1DW5BsSKoBXfS2EACzQSGTtPnwWrRD_u4At3ZSV9xMgO2KIehCS4zKEALVaXJO2OhBuf61-RQ1ks0G9FNzCKIr5EUvAE5aulOPflKl9Jld9ARbsbk4CfRNma52ditqpeetEfD1QhJ3DQ15isk7UvMcX2ygRf4bLNNGVSPwPmJTv4scNiOWt3ShayCaswIo5Hq6gbxB1uDFCAhuGpxVf0jRs8HIqKCH-S17_oDsECLTrsy2MV7Ow04G_vGYhoWWP7WfDr2naXCSjq6Tmek6U5OQQziY8VAmzHPaytpzMHrXPHnCqlP5petsjJ09YubVAylwJYGgZO8G9lVelf2EXrrcN7yGU1AjqcRc_cMFH8VUlps_bCR6xdjCJyUqMNIz1aMkVM3QTpIjVP5aTW6e690OwD9PO-W-O5ysDxS5bfnD7mUH4wYJAO_RMelkA7PaHlTi8YrBbBeW4E-fj1KhDjbgMCpXEyQ4tHL-6P44yUTQzkxPu5a3sEZUHXN0Ga-GpT83VydEZnyFGLBdfURVRonrfS2HmxrvqZnfBlE=w853-h480-no?authuser=0)](https://www.youtube.com/watch?v=1FJSTyXEtSo)
+[![Video about my project on YouTube](https://img.youtube.com/vi/txgsXdb_OfQ/0.jpg)](https://www.youtube.com/watch?v=txgsXdb_OfQ)
 
 ## Firmware flashing
 
